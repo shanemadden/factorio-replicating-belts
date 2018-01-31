@@ -153,12 +153,17 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
             break
           end
         end
-        -- iterate backwards over the possible range of this underground run, looking for the first position that's unobstructed but just past an obstruction
+        -- iterate backwards over the possible range of this underground run, looking for the first position that's
+        -- unobstructed but just past an obstruction, and has an empty space in front of it for our next belt
         local exit
         for i=cursor + max_skips + 1, cursor + 1, -1 do
           if placability[i] and not placability[i-1] then
-            exit = i
-            break
+            -- check if the spot after the exit is either a) the end of the path we need to fill or b) a valid spot itself, 
+            -- to keep the path from getting stuck having chosen a 1-wide gap to exit in
+            if placability[i+1] == nil or placability[i+1] then
+              exit = i
+              break
+            end
           end
         end
         if exit then
