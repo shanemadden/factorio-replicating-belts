@@ -229,12 +229,13 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
     end
     -- delete the replicating belt and convert down to a regular belt
     local target_position = source_entity.position
-    source_entity.destroy()
     surface.create_entity({
       name = belt_name,
       position = target_position,
       direction = direction,
       force = dest_entity.force,
+      fast_replace = true,
+      spill = false,
     })
     if #build_plan == 0 then
       -- we built a 0-length run, see if we can give the player a replicating belt back at the cost of a normal belt
@@ -415,12 +416,13 @@ local function scan_from_entity(entity, player_index)
       local position = entity.position
       local direction = entity.direction
       local force = entity.force
-      entity.destroy()
       surface.create_entity({
         name = belt_name,
         position = position,
         direction = direction,
         force = force,
+        fast_replace = true,
+        spill = false,
       })
       if player_index then
         -- a player triggered this, try to refund them (bots are out of luck)
