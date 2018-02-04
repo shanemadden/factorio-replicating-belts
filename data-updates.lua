@@ -10,3 +10,9 @@ if data.raw.technology["ultimate-logistics"] then
   require "prototypes.recipe.replicating-belts-ultimate"
   require "prototypes.technology.replicating-belts-ultimate"
 end
+if data.raw.item["blood-belt"] then
+  require "prototypes.entity.replicating-belts-blood"
+  require "prototypes.item.replicating-belts-blood"
+  require "prototypes.recipe.replicating-belts-blood"
+  require "prototypes.technology.replicating-belts-blood"
+end

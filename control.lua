@@ -15,6 +15,24 @@ local belt_type_mapping = {
     belt = "express-transport-belt",
     underground = "express-underground-belt",
   },
+  -- yellow blood
+  ["replicating-blood-belt"] = {
+    belt = "blood-belt",
+    underground = "underground-belt",
+    autoconnect = true,
+  },
+  -- red blood
+  ["replicating-fast-blood-belt"] = {
+    belt = "blood-belt-fast",
+    underground = "fast-underground-belt",
+    autoconnect = true,
+  },
+  -- blue blood
+  ["replicating-express-blood-belt"] = {
+    belt = "blood-belt-express",
+    underground = "express-underground-belt",
+    autoconnect = true,
+  },
   -- bob's green
   ["replicating-green-transport-belt"] = {
     belt = "green-transport-belt",
@@ -52,12 +70,6 @@ local belt_type_mapping = {
   },
 }
 
--- these are used a lot in frequently-called functions in this file - make them local to cut down on table lookups
-local north = defines.direction.north
-local south = defines.direction.south
-local east = defines.direction.east
-local west = defines.direction.west
-
 do
   -- we need to know each underground belt type's max distance but we can't query the game object 
   -- during loading for the value from the prototype (and many mods change these values, so we can't hardcode stock)
@@ -84,6 +96,146 @@ do
   for k, v in pairs(belt_type_mapping) do
     belt_type_mapping[k] = setmetatable(v, distance_lookup_metatable)
   end
+end
+
+-- these are used a lot in frequently-called functions in this file - make them local to cut down on table lookups
+local north = defines.direction.north
+local south = defines.direction.south
+local east = defines.direction.east
+local west = defines.direction.west
+
+-- some data mappings to help the scanner quickly make decisions and keep the direction logic organized
+-- this one is for what directions we should look when we get an entity placed in each direction for other peers pointing at us
+local scan_directions = {
+  [north] = {
+    south,
+    east,
+    west,
+  },
+  [south] = {
+    north,
+    east,
+    west,
+  },
+  [east] = {
+    north,
+    south,
+    west,
+  },
+  [west] = {
+    north,
+    south,
+    east,
+  },
+}
+-- this one is for when we're scanning forward, and want to match entites facing any direction but directly toward us
+local facing_any_but_opposite_filters = {
+  [north] = {
+    [north] = true,
+    --south = nil,
+    [east] = true,
+    [west] = true,
+  },
+  [south] = {
+    --north = nil,
+    [south] = true,
+    [east] = true,
+    [west] = true,
+  },
+  [east] = {
+    [north] = true,
+    [south] = true,
+    [east] = true,
+    --west = nil,
+  },
+  [west] = {
+    [north] = true,
+    [south] = true,
+    --east = nil,
+    [west] = true,
+  },
+}
+-- and this is for when we're scanning backward/sideways, and will match belts that face us directly
+local facing_toward_the_scanner_filters = {
+  [north] = {
+    [south] = true,
+  },
+  [south] = {
+    [north] = true,
+  },
+  [east] = {
+    [west] = true,
+  },
+  [west] = {
+    [east] = true,
+  },
+}
+
+local function get_neighbor_belt(entity, search_direction, direction_filter)
+  local neighbor
+  if search_direction == north then
+    neighbor = entity.surface.find_entities_filtered({
+      position = {entity.position.x, entity.position.y-1},
+      type = "transport-belt",
+      force = entity.force,
+    })
+  elseif search_direction == south then
+    neighbor = entity.surface.find_entities_filtered({
+      position = {entity.position.x, entity.position.y+1},
+      type = "transport-belt",
+      force = entity.force,
+    })
+  elseif search_direction == east then
+    neighbor = entity.surface.find_entities_filtered({
+      position = {entity.position.x+1, entity.position.y},
+      type = "transport-belt",
+      force = entity.force,
+    })
+  elseif search_direction == west then
+    neighbor = entity.surface.find_entities_filtered({
+      position = {entity.position.x-1, entity.position.y},
+      type = "transport-belt",
+      force = entity.force,
+    })
+  end
+  if neighbor and neighbor[1] and direction_filter[neighbor[1].direction] then
+    return neighbor[1]
+  end
+end
+-- For blood belt compatibility, our own belts should support autoconnecting (and defaulting to
+-- read/hold/no-enable-disable) to neighbor belts if the flag is set for the type
+-- Be more aggressive than the blood belts in allowing linking to any type of belt, but
+-- more selective in which neighbors we link to using the replication scanning logic (to allow parallel blood belts that don't intermingle)
+local function try_autoconnect(entity)
+  local position = entity.position
+  for _, v in pairs(scan_directions[entity.direction]) do
+    local neighbor = get_neighbor_belt(entity, v, facing_toward_the_scanner_filters[v])
+    if neighbor then
+      entity.connect_neighbour({
+        wire = defines.wire_type.red,
+        target_entity = neighbor,
+      })
+      local cb = neighbor.get_or_create_control_behavior()
+      cb.enable_disable = false
+      cb.read_contents = true
+      cb.read_contents_mode = defines.control_behavior.transport_belt.content_read_mode.hold
+    end
+  end
+  local neighbor = get_neighbor_belt(entity, entity.direction, facing_any_but_opposite_filters[entity.direction])
+  if neighbor then
+    entity.connect_neighbour({
+      wire = defines.wire_type.red,
+      target_entity = neighbor,
+    })
+    local cb = neighbor.get_or_create_control_behavior()
+    cb.enable_disable = false
+    cb.read_contents = true
+    cb.read_contents_mode = defines.control_behavior.transport_belt.content_read_mode.hold
+  end
+  local cb = entity.get_or_create_control_behavior()
+  cb.enable_disable = false
+  cb.read_contents = true
+  cb.read_contents_mode = defines.control_behavior.transport_belt.content_read_mode.hold
 end
 
 local function can_build_in_spot(source_entity, distance)
@@ -167,7 +319,7 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
           end
         end
         if exit then
-          -- found a valid, let's lay the plan for the rest of the underground run (input already planned above)
+          -- found a valid exit, let's lay the plan for the rest of the underground run (input already planned above)
           for i=cursor+1, exit-1 do
             build_plan[i] = build_plan_skip
           end
@@ -187,7 +339,7 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
   end
 
   if #build_plan == path_distance-1 then
-    -- we're looking good to build, do it
+    -- we ended up with a plan that covers the entire stretch, build it
     for i, v in ipairs(build_plan) do
       local target_position
       if direction == north then
@@ -226,6 +378,9 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
           type = "output",
         })
       end
+    end
+    if belt_type_mapping[source_entity.name].autoconnect then
+      try_autoconnect(source_entity)
     end
     -- delete the replicating belt and convert down to a regular belt
     local target_position = source_entity.position
@@ -331,76 +486,6 @@ local function check_direction(entity, search_direction, direction_filter, playe
   end
 end
 
--- some data mappings to help the scanner quickly make decisions and keep the direction logic organized
--- this one is for what directions we should look when we get an entity placed in each direction for other peers pointing at us
-local scan_directions = {
-  [north] = {
-    south,
-    east,
-    west,
-  },
-  [south] = {
-    north,
-    east,
-    west,
-  },
-  [east] = {
-    north,
-    south,
-    west,
-  },
-  [west] = {
-    north,
-    south,
-    east,
-  },
-}
--- this one is for when we're scanning forward, and want to match entites facing any direction but directly toward us
-local facing_any_but_opposite_filters = {
-  [north] = {
-    [north] = true,
-    --south = nil,
-    [east] = true,
-    [west] = true,
-  },
-  [south] = {
-    --north = nil,
-    [south] = true,
-    [east] = true,
-    [west] = true,
-  },
-  [east] = {
-    [north] = true,
-    [south] = true,
-    [east] = true,
-    --west = nil,
-  },
-  [west] = {
-    [north] = true,
-    [south] = true,
-    --east = nil,
-    [west] = true,
-  },
-}
--- and this is for when we're scanning backward/sideways, and will match belts that face us directly
-local facing_toward_the_scanner_filters = {
-  [north] = {
-    [south] = true,
-  },
-  [south] = {
-    [north] = true,
-  },
-  [east] = {
-    [west] = true,
-  },
-  [west] = {
-    [east] = true,
-  },
-}
--- give the player belts back when the run was 0 on the downconvert maybe?
--- automatically dconvert if the belt has a compatible belt right in front of it (and try to not cost the repl belt)
--- fix mining results
-
 local function scan_from_entity(entity, player_index)
   for _, v in pairs(scan_directions[entity.direction]) do
     -- scan in the three directions a matching belt might be facing us in
@@ -409,6 +494,11 @@ local function scan_from_entity(entity, player_index)
   if entity.type == "transport-belt" then
     -- not a ghost. check if there's an obstruction directly ahead. if so, downconvert
     -- (and try to refund a replicating belt to the player at the cost of a normal belt, since we didn't do anything too useful)
+
+    -- if we're an autoconnecting type, check for neighbors to link to
+    if belt_type_mapping[entity.name].autoconnect then
+      try_autoconnect(entity)
+    end
     if not can_build_in_spot(entity, 1) then
       local surface = entity.surface
       local replicating_belt_name = entity.name
