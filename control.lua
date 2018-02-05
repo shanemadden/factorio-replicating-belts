@@ -76,19 +76,23 @@ do
   -- work around this by waiting until the max_distance key gets read the first time for each belt type, then populate it
   local distance_lookup_metatable = {
     __index = function(table, key)
-      if not key == "max_distance" then
-        -- reading a different key, don't do anything special
-        return rawget(table, key)
+      local raw = rawget(table, key)
+      if key == "max_distance" then
+        -- we haven't read for this belt type before, get the data
+        local underground = rawget(table, "underground")
+        local distance = game.entity_prototypes[underground].max_underground_distance
+        -- store it so we won't get called again
+        table.max_distance = distance
+        return distance
       else
-        if not rawget(table, "max_distance") then
-          -- we haven't ready for this belt type before, get the data
-          local underground = rawget(table, "underground")
-          local distance = game.entity_prototypes[underground].max_underground_distance
-          -- store it so we won't get called again
-          table.max_distance = distance
-          return distance
+        if raw then
+          table[key] = raw
+          return raw
+        else
+          -- prevent repeat calls if we leave it nil
+          table[key] = false
+          return false
         end
-        return rawget(table, "max_distance")
       end
     end
   }
@@ -455,9 +459,9 @@ local function check_direction(entity, search_direction, direction_filter, playe
     if direction_filter[v.direction] then
       -- this one's facing in a direction we're interested in, let's check whether it's the closest one we've seen
       local match_distance
-      if v.direction == north or v.direction == south then
+      if search_direction == north or search_direction == south then
         match_distance = math.abs(v.position.y - entity.position.y)
-      elseif v.direction == east or v.direction == west then
+      elseif search_direction == east or search_direction == west then
         match_distance = math.abs(v.position.x - entity.position.x)
       end
       -- check whether this is the closest one we've found
