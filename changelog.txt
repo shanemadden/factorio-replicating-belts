@@ -1,4 +1,10 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.16.2
+Date: 10. 2. 2018
+  Info:
+    - Put replicating belts into their own item subgroup to prevent overflowing the belt group and make less of a mess with mods that reorganize the icons
+    - Converted changelog into parseable format
+---------------------------------------------------------------------------------------------------
 Version: 0.16.1
 Date: 5. 2. 2018
   Bugfixes:
