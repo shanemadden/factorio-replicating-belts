@@ -1,7 +1,14 @@
+local subgroup = {
+  type = "item-subgroup",
+  name = "replicating-belt",
+  group = "logistics",
+  order = "b-z",
+}
+
 local replicating_transport_belt = {
   type = "item",
   name = "replicating-transport-belt",
-  subgroup = "belt",
+  subgroup = "replicating-belt",
   order = "d[replicating-transport-belt]-a[replicating-transport-belt]",
   icons = {
     {
@@ -17,7 +24,7 @@ local replicating_transport_belt = {
 local replicating_fast_transport_belt = {
   type = "item",
   name = "replicating-fast-transport-belt",
-  subgroup = "belt",
+  subgroup = "replicating-belt",
   order = "d[replicating-transport-belt]-b[replicating-fast-transport-belt]",
   icons = {
     {
@@ -33,7 +40,7 @@ local replicating_fast_transport_belt = {
 local replicating_express_transport_belt = {
   type = "item",
   name = "replicating-express-transport-belt",
-  subgroup = "belt",
+  subgroup = "replicating-belt",
   order = "d[replicating-transport-belt]-c[replicating-express-transport-belt]",
   icons = {
     {
@@ -46,4 +53,4 @@ local replicating_express_transport_belt = {
   stack_size = 100,
 }
 
-data:extend{replicating_transport_belt, replicating_fast_transport_belt, replicating_express_transport_belt}
+data:extend{subgroup, replicating_transport_belt, replicating_fast_transport_belt, replicating_express_transport_belt}

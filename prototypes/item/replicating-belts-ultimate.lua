@@ -1,8 +1,8 @@
 local replicating_ultra_fast_belt = {
   type = "item",
   name = "replicating-ultra-fast-belt",
-  subgroup = "belt",
-  order = "d[replicating-transport-belt]-d[replicating-ultra-fast-belt]",
+  subgroup = "replicating-belt",
+  order = "d[replicating-transport-belt]-i[replicating-ultra-fast-belt]",
   icons = {
     {
       icon = "__replicating-belts__/graphics/icons/replicating-ultra-fast-belt.png",
@@ -17,8 +17,8 @@ local replicating_ultra_fast_belt = {
 local replicating_extreme_fast_belt = {
   type = "item",
   name = "replicating-extreme-fast-belt",
-  subgroup = "belt",
-  order = "d[replicating-transport-belt]-e[replicating-extreme-fast-belt]",
+  subgroup = "replicating-belt",
+  order = "d[replicating-transport-belt]-j[replicating-extreme-fast-belt]",
   icons = {
     {
       icon = "__replicating-belts__/graphics/icons/replicating-extreme-fast-belt.png",
@@ -33,8 +33,8 @@ local replicating_extreme_fast_belt = {
 local replicating_ultra_express_belt = {
   type = "item",
   name = "replicating-ultra-express-belt",
-  subgroup = "belt",
-  order = "d[replicating-transport-belt]-f[replicating-ultra-express-belt]",
+  subgroup = "replicating-belt",
+  order = "d[replicating-transport-belt]-k[replicating-ultra-express-belt]",
   icons = {
     {
       icon = "__replicating-belts__/graphics/icons/replicating-ultra-express-belt.png",
@@ -49,8 +49,8 @@ local replicating_ultra_express_belt = {
 local replicating_extreme_express_belt = {
   type = "item",
   name = "replicating-extreme-express-belt",
-  subgroup = "belt",
-  order = "d[replicating-transport-belt]-g[replicating-extreme-express-belt]",
+  subgroup = "replicating-belt",
+  order = "d[replicating-transport-belt]-l[replicating-extreme-express-belt]",
   icons = {
     {
       icon = "__replicating-belts__/graphics/icons/replicating-extreme-express-belt.png",
@@ -65,8 +65,8 @@ local replicating_extreme_express_belt = {
 local replicating_ultimate_transport_belt = {
   type = "item",
   name = "replicating-ultimate-transport-belt",
-  subgroup = "belt",
-  order = "d[replicating-transport-belt]-h[replicating-ultimate-transport-belt]",
+  subgroup = "replicating-belt",
+  order = "d[replicating-transport-belt]-m[replicating-ultimate-transport-belt]",
   icons = {
     {
       icon = "__replicating-belts__/graphics/icons/replicating-ultimate-transport-belt.png",

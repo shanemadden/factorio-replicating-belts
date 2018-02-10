@@ -1,8 +1,8 @@
 local replicating_green_transport_belt = {
   type = "item",
   name = "replicating-green-transport-belt",
-  subgroup = "bob-belt",
-  order = "d[replicating-transport-belt]-d[replicating-green-transport-belt]",
+  subgroup = "replicating-belt",
+  order = "d[replicating-transport-belt]-g[replicating-green-transport-belt]",
   icons = {
     {
       icon = "__replicating-belts__/graphics/icons/replicating-green-transport-belt.png",
@@ -17,8 +17,8 @@ local replicating_green_transport_belt = {
 local replicating_purple_transport_belt = {
   type = "item",
   name = "replicating-purple-transport-belt",
-  subgroup = "bob-belt",
-  order = "d[replicating-transport-belt]-e[replicating-purple-transport-belt]",
+  subgroup = "replicating-belt",
+  order = "d[replicating-transport-belt]-h[replicating-purple-transport-belt]",
   icons = {
     {
       icon = "__replicating-belts__/graphics/icons/replicating-purple-transport-belt.png",
