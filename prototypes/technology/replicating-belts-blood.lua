@@ -1,7 +1,7 @@
 local replicating_blood_belt = {
   type = "technology",
   name = "replicating-blood-belt",
-  icon = "__replicating-belts__/graphics/technology/replicating-blood-belt.png",
+  icon = "__replicating-belts__/graphics/technology/blood/replicating-blood-belt.png",
   icon_size = 128,
   effects = {
     {

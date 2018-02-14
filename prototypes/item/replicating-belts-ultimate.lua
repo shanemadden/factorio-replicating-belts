@@ -5,7 +5,7 @@ local replicating_ultra_fast_belt = {
   order = "d[replicating-transport-belt]-i[replicating-ultra-fast-belt]",
   icons = {
     {
-      icon = "__replicating-belts__/graphics/icons/replicating-ultra-fast-belt.png",
+      icon = "__replicating-belts__/graphics/icons/ultimate/replicating-ultra-fast-belt.png",
       icon_size = 32,
     }
   },
@@ -21,7 +21,7 @@ local replicating_extreme_fast_belt = {
   order = "d[replicating-transport-belt]-j[replicating-extreme-fast-belt]",
   icons = {
     {
-      icon = "__replicating-belts__/graphics/icons/replicating-extreme-fast-belt.png",
+      icon = "__replicating-belts__/graphics/icons/ultimate/replicating-extreme-fast-belt.png",
       icon_size = 32,
     }
   },
@@ -37,7 +37,7 @@ local replicating_ultra_express_belt = {
   order = "d[replicating-transport-belt]-k[replicating-ultra-express-belt]",
   icons = {
     {
-      icon = "__replicating-belts__/graphics/icons/replicating-ultra-express-belt.png",
+      icon = "__replicating-belts__/graphics/icons/ultimate/replicating-ultra-express-belt.png",
       icon_size = 32,
     }
   },
@@ -53,7 +53,7 @@ local replicating_extreme_express_belt = {
   order = "d[replicating-transport-belt]-l[replicating-extreme-express-belt]",
   icons = {
     {
-      icon = "__replicating-belts__/graphics/icons/replicating-extreme-express-belt.png",
+      icon = "__replicating-belts__/graphics/icons/ultimate/replicating-extreme-express-belt.png",
       icon_size = 32,
     }
   },
@@ -69,7 +69,7 @@ local replicating_ultimate_transport_belt = {
   order = "d[replicating-transport-belt]-m[replicating-ultimate-transport-belt]",
   icons = {
     {
-      icon = "__replicating-belts__/graphics/icons/replicating-ultimate-transport-belt.png",
+      icon = "__replicating-belts__/graphics/icons/ultimate/replicating-ultimate-transport-belt.png",
       icon_size = 32,
     }
   },

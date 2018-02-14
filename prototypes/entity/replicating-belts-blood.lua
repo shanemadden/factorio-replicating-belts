@@ -19,20 +19,20 @@ local entity_mapping = {
   -- yellow blood
   ["replicating-blood-belt"] = {
     copy = "blood-belt",
-    filename = "__replicating-belts__/graphics/entity/transport-belt/replicating-blood-belt.png",
-    hr_file = "__replicating-belts__/graphics/entity/transport-belt/hr-replicating-blood-belt.png",
+    filename = "__replicating-belts__/graphics/entity/transport-belt/blood/replicating-blood-belt.png",
+    hr_file = "__replicating-belts__/graphics/entity/transport-belt/blood/hr-replicating-blood-belt.png",
   },
   -- red blood
   ["replicating-fast-blood-belt"] = {
     copy = "blood-belt-fast",
-    filename = "__replicating-belts__/graphics/entity/transport-belt/replicating-fast-blood-belt.png",
-    hr_file = "__replicating-belts__/graphics/entity/transport-belt/hr-replicating-fast-blood-belt.png",
+    filename = "__replicating-belts__/graphics/entity/transport-belt/blood/replicating-fast-blood-belt.png",
+    hr_file = "__replicating-belts__/graphics/entity/transport-belt/blood/hr-replicating-fast-blood-belt.png",
   },
   -- blue blood
   ["replicating-express-blood-belt"] = {
     copy = "blood-belt-express",
-    filename = "__replicating-belts__/graphics/entity/transport-belt/replicating-express-blood-belt.png",
-    hr_file = "__replicating-belts__/graphics/entity/transport-belt/hr-replicating-express-blood-belt.png",
+    filename = "__replicating-belts__/graphics/entity/transport-belt/blood/replicating-express-blood-belt.png",
+    hr_file = "__replicating-belts__/graphics/entity/transport-belt/blood/hr-replicating-express-blood-belt.png",
   },
 }
 local belts = data.raw["transport-belt"]

@@ -5,7 +5,7 @@ local replicating_green_transport_belt = {
   order = "d[replicating-transport-belt]-g[replicating-green-transport-belt]",
   icons = {
     {
-      icon = "__replicating-belts__/graphics/icons/replicating-green-transport-belt.png",
+      icon = "__replicating-belts__/graphics/icons/bob/replicating-green-transport-belt.png",
       icon_size = 32,
     }
   },
@@ -21,7 +21,7 @@ local replicating_purple_transport_belt = {
   order = "d[replicating-transport-belt]-h[replicating-purple-transport-belt]",
   icons = {
     {
-      icon = "__replicating-belts__/graphics/icons/replicating-purple-transport-belt.png",
+      icon = "__replicating-belts__/graphics/icons/bob/replicating-purple-transport-belt.png",
       icon_size = 32,
     }
   },

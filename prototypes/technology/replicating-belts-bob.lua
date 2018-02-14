@@ -1,7 +1,7 @@
 local replicating_green_transport_belt = {
   type = "technology",
   name = "replicating-green-transport-belt",
-  icon = "__replicating-belts__/graphics/technology/replicating-green-transport-belt.png",
+  icon = "__replicating-belts__/graphics/technology/bob/replicating-green-transport-belt.png",
   icon_size = 128,
   effects = {
     {
@@ -27,7 +27,7 @@ local replicating_green_transport_belt = {
 local replicating_purple_transport_belt = {
   type = "technology",
   name = "replicating-purple-transport-belt",
-  icon = "__replicating-belts__/graphics/technology/replicating-purple-transport-belt.png",
+  icon = "__replicating-belts__/graphics/technology/bob/replicating-purple-transport-belt.png",
   icon_size = 128,
   effects = {
     {

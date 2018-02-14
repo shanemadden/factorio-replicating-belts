@@ -1,7 +1,7 @@
 local replicating_ultra_fast_belt = {
   type = "technology",
   name = "replicating-ultra-fast-belt",
-  icon = "__replicating-belts__/graphics/technology/replicating-ultra-fast-belt.png",
+  icon = "__replicating-belts__/graphics/technology/ultimate/replicating-ultra-fast-belt.png",
   icon_size = 128,
   effects = {
     {
@@ -25,7 +25,7 @@ local replicating_ultra_fast_belt = {
 local replicating_extreme_fast_belt = {
   type = "technology",
   name = "replicating-extreme-fast-belt",
-  icon = "__replicating-belts__/graphics/technology/replicating-extreme-fast-belt.png",
+  icon = "__replicating-belts__/graphics/technology/ultimate/replicating-extreme-fast-belt.png",
   icon_size = 128,
   effects = {
     {
@@ -50,7 +50,7 @@ local replicating_extreme_fast_belt = {
 local replicating_ultra_express_belt = {
   type = "technology",
   name = "replicating-ultra-express-belt",
-  icon = "__replicating-belts__/graphics/technology/replicating-ultra-express-belt.png",
+  icon = "__replicating-belts__/graphics/technology/ultimate/replicating-ultra-express-belt.png",
   icon_size = 128,
   effects = {
     {
@@ -75,7 +75,7 @@ local replicating_ultra_express_belt = {
 local replicating_extreme_express_belt = {
   type = "technology",
   name = "replicating-extreme-express-belt",
-  icon = "__replicating-belts__/graphics/technology/replicating-extreme-express-belt.png",
+  icon = "__replicating-belts__/graphics/technology/ultimate/replicating-extreme-express-belt.png",
   icon_size = 128,
   effects = {
     {
@@ -101,7 +101,7 @@ local replicating_extreme_express_belt = {
 local replicating_ultimate_transport_belt = {
   type = "technology",
   name = "replicating-ultimate-transport-belt",
-  icon = "__replicating-belts__/graphics/technology/replicating-ultimate-transport-belt.png",
+  icon = "__replicating-belts__/graphics/technology/ultimate/replicating-ultimate-transport-belt.png",
   icon_size = 128,
   effects = {
     {

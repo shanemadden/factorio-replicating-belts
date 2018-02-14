@@ -20,14 +20,14 @@ local entity_mapping = {
   -- green
   ["replicating-green-transport-belt"] = {
     copy = "green-transport-belt",
-    filename = "__replicating-belts__/graphics/entity/transport-belt/replicating-green-transport-belt.png",
-    hr_file = "__replicating-belts__/graphics/entity/transport-belt/hr-replicating-green-transport-belt.png",
+    filename = "__replicating-belts__/graphics/entity/transport-belt/bob/replicating-green-transport-belt.png",
+    hr_file = "__replicating-belts__/graphics/entity/transport-belt/bob/hr-replicating-green-transport-belt.png",
   },
   -- purple
   ["replicating-purple-transport-belt"] = {
     copy = "purple-transport-belt",
-    filename = "__replicating-belts__/graphics/entity/transport-belt/replicating-purple-transport-belt.png",
-    hr_file = "__replicating-belts__/graphics/entity/transport-belt/hr-replicating-purple-transport-belt.png",
+    filename = "__replicating-belts__/graphics/entity/transport-belt/bob/replicating-purple-transport-belt.png",
+    hr_file = "__replicating-belts__/graphics/entity/transport-belt/bob/hr-replicating-purple-transport-belt.png",
   },
 }
 

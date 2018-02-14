@@ -5,7 +5,7 @@ local replicating_blood_belt = {
   order = "d[replicating-transport-belt]-d[replicating-blood-belt]",
   icons = {
     {
-      icon = "__replicating-belts__/graphics/icons/replicating-blood-belt.png",
+      icon = "__replicating-belts__/graphics/icons/blood/replicating-blood-belt.png",
       icon_size = 32,
     }
   },
@@ -21,7 +21,7 @@ local replicating_fast_blood_belt = {
   order = "d[replicating-transport-belt]-e[replicating-fast-blood-belt]",
   icons = {
     {
-      icon = "__replicating-belts__/graphics/icons/replicating-fast-blood-belt.png",
+      icon = "__replicating-belts__/graphics/icons/blood/replicating-fast-blood-belt.png",
       icon_size = 32,
     }
   },
@@ -37,7 +37,7 @@ local replicating_express_blood_belt = {
   order = "d[replicating-transport-belt]-f[replicating-express-blood-belt]",
   icons = {
     {
-      icon = "__replicating-belts__/graphics/icons/replicating-express-blood-belt.png",
+      icon = "__replicating-belts__/graphics/icons/blood/replicating-express-blood-belt.png",
       icon_size = 32,
     }
   },

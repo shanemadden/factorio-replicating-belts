@@ -19,32 +19,32 @@ local entity_mapping = {
   -- t1
   ["replicating-ultra-fast-belt"] = {
     copy = "ultra-fast-belt",
-    filename = "__replicating-belts__/graphics/entity/transport-belt/replicating-ultra-fast-belt.png",
-    hr_file = "__replicating-belts__/graphics/entity/transport-belt/hr-replicating-ultra-fast-belt.png",
+    filename = "__replicating-belts__/graphics/entity/transport-belt/ultimate/replicating-ultra-fast-belt.png",
+    hr_file = "__replicating-belts__/graphics/entity/transport-belt/ultimate/hr-replicating-ultra-fast-belt.png",
   },
   -- t2
   ["replicating-extreme-fast-belt"] = {
     copy = "extreme-fast-belt",
-    filename = "__replicating-belts__/graphics/entity/transport-belt/replicating-extreme-fast-belt.png",
-    hr_file = "__replicating-belts__/graphics/entity/transport-belt/hr-replicating-extreme-fast-belt.png",
+    filename = "__replicating-belts__/graphics/entity/transport-belt/ultimate/replicating-extreme-fast-belt.png",
+    hr_file = "__replicating-belts__/graphics/entity/transport-belt/ultimate/hr-replicating-extreme-fast-belt.png",
   },
   -- t3
   ["replicating-ultra-express-belt"] = {
     copy = "ultra-express-belt",
-    filename = "__replicating-belts__/graphics/entity/transport-belt/replicating-ultra-express-belt.png",
-    hr_file = "__replicating-belts__/graphics/entity/transport-belt/hr-replicating-ultra-express-belt.png",
+    filename = "__replicating-belts__/graphics/entity/transport-belt/ultimate/replicating-ultra-express-belt.png",
+    hr_file = "__replicating-belts__/graphics/entity/transport-belt/ultimate/hr-replicating-ultra-express-belt.png",
   },
   -- t4
   ["replicating-extreme-express-belt"] = {
     copy = "extreme-express-belt",
-    filename = "__replicating-belts__/graphics/entity/transport-belt/replicating-extreme-express-belt.png",
-    hr_file = "__replicating-belts__/graphics/entity/transport-belt/hr-replicating-extreme-express-belt.png",
+    filename = "__replicating-belts__/graphics/entity/transport-belt/ultimate/replicating-extreme-express-belt.png",
+    hr_file = "__replicating-belts__/graphics/entity/transport-belt/ultimate/hr-replicating-extreme-express-belt.png",
   },
   -- t5
   ["replicating-ultimate-transport-belt"] = {
     copy = "ultimate-transport-belt",
-    filename = "__replicating-belts__/graphics/entity/transport-belt/replicating-ultimate-transport-belt.png",
-    hr_file = "__replicating-belts__/graphics/entity/transport-belt/hr-replicating-ultimate-transport-belt.png",
+    filename = "__replicating-belts__/graphics/entity/transport-belt/ultimate/replicating-ultimate-transport-belt.png",
+    hr_file = "__replicating-belts__/graphics/entity/transport-belt/ultimate/hr-replicating-ultimate-transport-belt.png",
   },
 }
 local belts = data.raw["transport-belt"]
