@@ -9,6 +9,7 @@
         "base >= 0.16",
         "? bloodbelt >= 0.15",
         "? boblogistics >= 0.16",
+        "? FactorioExtended-Transport >= 0.3.1",
         "? UltimateBelts >= 0.16"
     ],
     "description": "Adds replicating belts of each belt type, enabling non-blueprint belt placement with fewer clicks"

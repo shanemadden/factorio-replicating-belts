@@ -16,3 +16,9 @@ if data.raw.item["blood-belt"] then
   require "prototypes.recipe.replicating-belts-blood"
   require "prototypes.technology.replicating-belts-blood"
 end
+if data.raw.item["blistering-transport-belt"] then
+  require "prototypes.entity.replicating-belts-extended"
+  require "prototypes.item.replicating-belts-extended"
+  require "prototypes.recipe.replicating-belts-extended"
+  require "prototypes.technology.replicating-belts-extended"
+end

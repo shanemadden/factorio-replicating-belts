@@ -1,3 +1,7 @@
+-- tint for ulti, new tech graphic
+-- todo config dialog to set which underground used, override max distance, set prefer udnerground path
+-- persist those settings keyed on the replicating item - so each belt type's setting will stick for the player
+-- todo deactivate when not-our-belt is placed right in front of us
 local scan_max_distance = 1000
 local belt_type_mapping = {
   -- yellow
@@ -32,6 +36,16 @@ local belt_type_mapping = {
     belt = "blood-belt-express",
     underground = "express-underground-belt",
     autoconnect = true,
+  },
+  -- extended blistering
+    ["replicating-blistering-transport-belt"] = {
+    belt = "blistering-transport-belt",
+    underground = "blistering-transport-belt-to-ground",
+  },
+  -- extended furious
+  ["replicating-furious-transport-belt"] = {
+    belt = "furious-transport-belt",
+    underground = "furious-transport-belt-to-ground",
   },
   -- bob's green
   ["replicating-green-transport-belt"] = {
