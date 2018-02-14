@@ -38,7 +38,7 @@ local belt_type_mapping = {
     autoconnect = true,
   },
   -- extended blistering
-    ["replicating-blistering-transport-belt"] = {
+  ["replicating-blistering-transport-belt"] = {
     belt = "blistering-transport-belt",
     underground = "blistering-transport-belt-to-ground",
   },
