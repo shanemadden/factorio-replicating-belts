@@ -269,10 +269,11 @@ local function can_build_in_spot(source_entity, distance)
   end
 
   return source_entity.surface.can_place_entity({
-    name = "ghost-collision-test-belt",
+    name = source_entity.name,
     position = target_position,
     direction = source_entity.direction,
     force = source_entity.force,
+    build_check_type = defines.build_check_type.ghost_place,
   })
 end
 

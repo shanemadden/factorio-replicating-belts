@@ -1,12 +1,6 @@
 require "util"
 
--- this is a special belt to collide with ghosts, so that the obstruction finder will include existing ghosts and avoid plowing over them
-local collision_belt = table.deepcopy(data.raw["transport-belt"]["transport-belt"])
-collision_belt.name = "ghost-collision-test-belt"
-collision_belt.order = "z"
-collision_belt.collision_mask = {"object-layer", "water-tile", "ghost-layer"}
-
-local entities = { collision_belt }
+local entities = {}
 
 -- all of the attributes we'll iterate on the copied to replace the sprites with the tinted versions
 local attributes_with_filenames = {

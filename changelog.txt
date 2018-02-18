@@ -1,4 +1,10 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.16.4
+Date: 17. 2. 2018
+  Info:
+    - Requires at least Factorio 0.16.24
+    - Use new can_place_entity() build_check_type parameter to check for placability, now ignoring deconstruction marked entities for pathing (and removed old workaround method for avoiding ghost collisions)
+---------------------------------------------------------------------------------------------------
 Version: 0.16.3
 Date: 13. 2. 2018
   Info:
