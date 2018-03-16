@@ -436,7 +436,7 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
   end
 end
 
-local function check_direction(entity, search_direction, direction_filter, player_index)
+local function check_direction(entity, search_direction, direction_filter, player_index, include_ghosts)
   local name
   if entity.type == "transport-belt" then
     name = entity.name
@@ -463,13 +463,14 @@ local function check_direction(entity, search_direction, direction_filter, playe
     area = {{entity.position.x+0.5, entity.position.y-0.5}, {entity.position.x+(scan_max_distance+0.5), entity.position.y+0.5}}
   end
   -- search!
+  local closest_facing
+  local closest_distance
+  -- look for already-built peers
   local entities = game.surfaces[entity.surface.index].find_entities_filtered({
     area = area,
     name = name,
     force = entity.force,
   })
-  local closest_facing
-  local closest_distance
   for k,v in pairs(entities) do
     if direction_filter[v.direction] then
       -- this one's facing in a direction we're interested in, let's check whether it's the closest one we've seen
@@ -484,6 +485,32 @@ local function check_direction(entity, search_direction, direction_filter, playe
         if closest_distance == nil or match_distance < closest_distance then
           closest_facing = v
           closest_distance = match_distance
+        end
+      end
+    end
+  end
+  if include_ghosts then
+    -- Also check ghost entities in the target area since we're running a scan that can match with a ghost
+    local entities = game.surfaces[entity.surface.index].find_entities_filtered({
+      area = area,
+      ghost_name = name,
+      force = entity.force,
+    })
+    for k,v in pairs(entities) do
+      if direction_filter[v.direction] then
+        -- this one's facing in a direction we're interested in, let's check whether it's the closest one we've seen
+        local match_distance
+        if search_direction == north or search_direction == south then
+          match_distance = math.abs(v.position.y - entity.position.y)
+        elseif search_direction == east or search_direction == west then
+          match_distance = math.abs(v.position.x - entity.position.x)
+        end
+        -- check whether this is the closest one we've found
+        if match_distance then
+          if closest_distance == nil or match_distance < closest_distance then
+            closest_facing = v
+            closest_distance = match_distance
+          end
         end
       end
     end
@@ -508,7 +535,7 @@ end
 local function scan_from_entity(entity, player_index)
   for _, v in pairs(scan_directions[entity.direction]) do
     -- scan in the three directions a matching belt might be facing us in
-    check_direction(entity, v, facing_toward_the_scanner_filters[v], player_index)
+    check_direction(entity, v, facing_toward_the_scanner_filters[v], player_index, false)
   end
   if entity.type == "transport-belt" then
     -- not a ghost. check if there's an obstruction directly ahead. if so, downconvert
@@ -548,7 +575,7 @@ local function scan_from_entity(entity, player_index)
       end
     else
       -- no obstruction directly forward, so let's check if we can build from here forward too
-      check_direction(entity, entity.direction, facing_any_but_opposite_filters[entity.direction], player_index)
+      check_direction(entity, entity.direction, facing_any_but_opposite_filters[entity.direction], player_index, true)
     end
   end
 end
