@@ -109,6 +109,9 @@ local function config_default(belt_name, key)
   end
 end
 local function get_config(player_index, belt_name, key)
+  if not global.rbconfig then
+    global.rbconfig = {}
+  end
   if global.rbconfig[player_index] and global.rbconfig[player_index][belt_name] and global.rbconfig[player_index][belt_name][key] then
     -- the player has configured this, use their setting
     return global.rbconfig[player_index][belt_name][key]
