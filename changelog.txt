@@ -1,4 +1,13 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.16.5
+Date: 21. 3. 2018
+  Bugfixes:
+    - Fixed a case where belts wouldn't trigger replication but should have
+  Info:
+    - Added settings dialog for replicating belts, right-click the item in your inventory to open
+    - Added setting to control which underground belt type should be used by each replicating belt tier (also enables third party underground types to be used)
+    - Added setting to prefer using underground belts when placing ghosts
+---------------------------------------------------------------------------------------------------
 Version: 0.16.4
 Date: 17. 2. 2018
   Info:
