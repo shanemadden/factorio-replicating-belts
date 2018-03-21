@@ -1,5 +1,5 @@
 local replicating_green_transport_belt = {
-  type = "item",
+  type = "item-with-label",
   name = "replicating-green-transport-belt",
   subgroup = "replicating-belt",
   order = "d[replicating-transport-belt]-g[replicating-green-transport-belt]",
@@ -12,10 +12,11 @@ local replicating_green_transport_belt = {
   flags = {"goes-to-quickbar"},
   place_result = "replicating-green-transport-belt",
   stack_size = 100,
+  can_be_mod_opened = true,
 }
 
 local replicating_purple_transport_belt = {
-  type = "item",
+  type = "item-with-label",
   name = "replicating-purple-transport-belt",
   subgroup = "replicating-belt",
   order = "d[replicating-transport-belt]-h[replicating-purple-transport-belt]",
@@ -28,6 +29,7 @@ local replicating_purple_transport_belt = {
   flags = {"goes-to-quickbar"},
   place_result = "replicating-purple-transport-belt",
   stack_size = 100,
+  can_be_mod_opened = true,
 }
 
 data:extend{replicating_green_transport_belt, replicating_purple_transport_belt}

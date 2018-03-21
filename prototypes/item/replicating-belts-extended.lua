@@ -1,5 +1,5 @@
 local replicating_blistering_transport_belt = {
-  type = "item",
+  type = "item-with-label",
   name = "replicating-blistering-transport-belt",
   subgroup = "replicating-belt",
   order = "d[replicating-transport-belt]-g[replicating-blistering-transport-belt]",
@@ -12,10 +12,11 @@ local replicating_blistering_transport_belt = {
   flags = {"goes-to-quickbar"},
   place_result = "replicating-blistering-transport-belt",
   stack_size = 100,
+  can_be_mod_opened = true,
 }
 
 local replicating_furious_transport_belt = {
-  type = "item",
+  type = "item-with-label",
   name = "replicating-furious-transport-belt",
   subgroup = "replicating-belt",
   order = "d[replicating-transport-belt]-h[replicating-furious-transport-belt]",
@@ -28,6 +29,7 @@ local replicating_furious_transport_belt = {
   flags = {"goes-to-quickbar"},
   place_result = "replicating-furious-transport-belt",
   stack_size = 100,
+  can_be_mod_opened = true,
 }
 
 data:extend{replicating_blistering_transport_belt, replicating_furious_transport_belt}

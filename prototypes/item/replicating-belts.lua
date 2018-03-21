@@ -6,7 +6,7 @@ local subgroup = {
 }
 
 local replicating_transport_belt = {
-  type = "item",
+  type = "item-with-label",
   name = "replicating-transport-belt",
   subgroup = "replicating-belt",
   order = "d[replicating-transport-belt]-a[replicating-transport-belt]",
@@ -19,10 +19,11 @@ local replicating_transport_belt = {
   flags = {"goes-to-quickbar"},
   place_result = "replicating-transport-belt",
   stack_size = 100,
+  can_be_mod_opened = true,
 }
 
 local replicating_fast_transport_belt = {
-  type = "item",
+  type = "item-with-label",
   name = "replicating-fast-transport-belt",
   subgroup = "replicating-belt",
   order = "d[replicating-transport-belt]-b[replicating-fast-transport-belt]",
@@ -35,10 +36,11 @@ local replicating_fast_transport_belt = {
   flags = {"goes-to-quickbar"},
   place_result = "replicating-fast-transport-belt",
   stack_size = 100,
+  can_be_mod_opened = true,
 }
 
 local replicating_express_transport_belt = {
-  type = "item",
+  type = "item-with-label",
   name = "replicating-express-transport-belt",
   subgroup = "replicating-belt",
   order = "d[replicating-transport-belt]-c[replicating-express-transport-belt]",
@@ -51,6 +53,7 @@ local replicating_express_transport_belt = {
   flags = {"goes-to-quickbar"},
   place_result = "replicating-express-transport-belt",
   stack_size = 100,
+  can_be_mod_opened = true,
 }
 
 data:extend{subgroup, replicating_transport_belt, replicating_fast_transport_belt, replicating_express_transport_belt}

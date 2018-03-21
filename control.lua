@@ -1,7 +1,7 @@
 -- tint for ulti, new tech graphic
--- todo config dialog to set which underground used, override max distance, set prefer udnerground path
--- persist those settings keyed on the replicating item - so each belt type's setting will stick for the player
 -- todo deactivate when not-our-belt is placed right in front of us
+-- todo config for overriding max, min(?) distance, reset buttons for sliders
+-- todo detect if we're pathing over existing undergrounds that'll interfere with our planned path
 local scan_max_distance = 1000
 local belt_type_mapping = {
   -- yellow
@@ -84,35 +84,37 @@ local belt_type_mapping = {
   },
 }
 
+local underground_distances = {}
 do
   -- we need to know each underground belt type's max distance but we can't query the game object 
   -- during loading for the value from the prototype (and many mods change these values, so we can't hardcode stock)
   -- work around this by waiting until the max_distance key gets read the first time for each belt type, then populate it
   local distance_lookup_metatable = {
     __index = function(table, key)
-      local raw = rawget(table, key)
-      if key == "max_distance" then
-        -- we haven't read for this belt type before, get the data
-        local underground = rawget(table, "underground")
-        local distance = game.entity_prototypes[underground].max_underground_distance
-        -- store it so we won't get called again
-        table.max_distance = distance
-        return distance
-      else
-        if raw then
-          table[key] = raw
-          return raw
-        else
-          -- prevent repeat calls if we leave it nil
-          table[key] = false
-          return false
-        end
-      end
+      local distance = game.entity_prototypes[key].max_underground_distance
+      table[key] = distance
+      return distance
     end
   }
-  -- attach the metatable to each belt type in the mapping table
-  for k, v in pairs(belt_type_mapping) do
-    belt_type_mapping[k] = setmetatable(v, distance_lookup_metatable)
+  underground_distances = setmetatable(underground_distances, distance_lookup_metatable)
+end
+
+-- create the config table if it doesn't exist
+global.rbconfig = global.rbconfig or {}
+local function config_default(belt_name, key)
+  if key == "prefer_underground" then
+    return false
+  elseif key == "underground" then
+    return belt_type_mapping[belt_name].underground
+  end
+end
+local function get_config(player_index, belt_name, key)
+  if global.rbconfig[player_index] and global.rbconfig[player_index][belt_name] and global.rbconfig[player_index][belt_name][key] then
+    -- the player has configured this, use their setting
+    return global.rbconfig[player_index][belt_name][key]
+  else
+    -- unconfigured, use the default
+    return config_default(belt_name, key)
   end
 end
 
@@ -287,13 +289,19 @@ local build_plan_output = 4
 local placability = {}
 local build_plan = {}
 local function check_path(source_entity, dest_entity, path_distance, player_index)
+  local config_player = player_index
+  if not config_player then
+    -- it's a bot build, so we don't have a direct way to figure out the active settings of the player building stuff, use the source's last_user
+    config_player = source_entity.last_user.index
+  end
   local surface = source_entity.surface
   local replicating_name = source_entity.name
   local belt_name = belt_type_mapping[source_entity.name].belt
-  local underground_name = belt_type_mapping[source_entity.name].underground
+  local underground_name = get_config(config_player, source_entity.name, "underground")
+  local prefer_underground = get_config(config_player, source_entity.name, "prefer_underground")
   local direction = source_entity.direction
   for i=1,path_distance-1 do
-    -- evaluate whether we can place our special belt entity (which collides with ghosts) in each spot along the path, collect for the pathfinder
+    -- evaluate whether we can place ghost belts in each spot along the path, collect for the pathfinder
     placability[i] = can_build_in_spot(source_entity, i)
   end
   local cursor = 1
@@ -311,48 +319,98 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
       build_plan[cursor] = build_plan_belt
       cursor = cursor + 1
     else
-      -- at least two segments need filled still, check the next
-      if not placability[cursor+1] then
-        -- obstruction, we're headed underground. put an input belt here.
-        build_plan[cursor] = build_plan_input
-        local max_skips = belt_type_mapping[source_entity.name].max_distance - 1
+      if prefer_underground then
+        ---- Underground Pathing ----
+        -- see if we can place an underground at any distance > 1, fail to trying an overground then checking underground again
+        local max_skips = underground_distances[underground_name] - 1
         if #placability - (cursor + 1) < max_skips then
-          -- shorten the possible underground run if we're too close to the destination to use the whole potential length
+           -- shorten the possible underground run if we're too close to the destination to use the whole potential length
           max_skips = #placability - (cursor + 1)
-          if max_skips < 1 then
-            -- a successful underground run should probably end up going under something, so let's fail
+        end
+        if max_skips < 1 then
+          -- a successful underground run should probably end up going under something, so that won't work.
+          -- make an overground belt if there's a free spot after it, otherwise just fail
+          if placability[cursor+1] then
+            build_plan[cursor] = build_plan_belt
+            cursor = cursor + 1
+          else
             break
           end
-        end
-        -- iterate backwards over the possible range of this underground run, looking for the first position that's
-        -- unobstructed but just past an obstruction, and has an empty space in front of it for our next belt
-        local exit
-        for i=cursor + max_skips + 1, cursor + 1, -1 do
-          if placability[i] and not placability[i-1] then
-            -- check if the spot after the exit is either a) the end of the path we need to fill or b) a valid spot itself, 
-            -- to keep the path from getting stuck having chosen a 1-wide gap to exit in
-            if placability[i+1] == nil or placability[i+1] then
+        else
+          -- iterate backwards over the possible range of this underground run, looking for the furthest possible
+          -- location which has an empty space in front of it for our next belt (or is the end of the path)
+          local exit
+          for i=cursor + max_skips + 1, cursor + 1, -1 do
+            if placability[i] and (placability[i+1] == nil or placability[i+1]) then
               exit = i
               break
             end
           end
-        end
-        if exit then
-          -- found a valid exit, let's lay the plan for the rest of the underground run (input already planned above)
-          for i=cursor+1, exit-1 do
-            build_plan[i] = build_plan_skip
+          if exit then
+            -- found a valid exit, let's lay the plan for the entire run (didn't plan input above like when preferring over-ground)
+            build_plan[cursor] = build_plan_input
+            for i=cursor+1, exit-1 do
+              build_plan[i] = build_plan_skip
+            end
+            build_plan[exit] = build_plan_output
+            -- we've planned all those steps successfully, move the cursor up to the block after the exit
+            cursor = exit + 1
+          else
+            if placability[cursor+1] then
+              -- couldn't make an underground but there's a clear spot after the cursor, place an overground
+              build_plan[cursor] = build_plan_belt
+              cursor = cursor + 1
+            else
+              -- fail the path
+              break
+            end
           end
-          build_plan[exit] = build_plan_output
-          -- we've planned all those steps successfully, move the cursor up to the block after the exit to go back to trying for normal belts again
-          cursor = exit + 1
-        else
-          -- there wasn't a valid exit in range, fail the whole path
-          break
         end
       else
-        -- this segment and the next are clear, plan a belt here
-        build_plan[cursor] = build_plan_belt
-        cursor = cursor + 1
+        ---- Standard Pathing ----
+        -- at least two segments need filled still, check the next
+        if not placability[cursor+1] then
+          -- obstruction, we're headed underground. put an input belt here.
+          build_plan[cursor] = build_plan_input
+          local max_skips = underground_distances[underground_name] - 1
+          if #placability - (cursor + 1) < max_skips then
+            -- shorten the possible underground run if we're too close to the destination to use the whole potential length
+            max_skips = #placability - (cursor + 1)
+            if max_skips < 1 then
+              -- a successful underground run should probably end up going under something, so let's fail
+              break
+            end
+          end
+          -- iterate backwards over the possible range of this underground run, looking for the first position that's
+          -- unobstructed but just past an obstruction, and has an empty space in front of it for our next belt
+          local exit
+          for i=cursor + max_skips + 1, cursor + 1, -1 do
+            if placability[i] and not placability[i-1] then
+              -- check if the spot after the exit is either a) the end of the path we need to fill or b) a valid spot itself, 
+              -- to keep the path from getting stuck having chosen a 1-wide gap to exit in
+              if placability[i+1] == nil or placability[i+1] then
+                exit = i
+                break
+              end
+            end
+          end
+          if exit then
+            -- found a valid exit, let's lay the plan for the rest of the underground run (input already planned above)
+            for i=cursor+1, exit-1 do
+              build_plan[i] = build_plan_skip
+            end
+            build_plan[exit] = build_plan_output
+            -- we've planned all those steps successfully, move the cursor up to the block after the exit to go back to trying for normal belts again
+            cursor = exit + 1
+          else
+            -- there wasn't a valid exit in range, fail the whole path
+            break
+          end
+        else
+          -- this segment and the next are clear, plan a belt here
+          build_plan[cursor] = build_plan_belt
+          cursor = cursor + 1
+        end
       end
     end
   end
@@ -580,6 +638,59 @@ local function scan_from_entity(entity, player_index)
   end
 end
 
+local function open_gui(event)
+  local player = game.players[event.player_index]
+  -- create parent frame
+  local settings = player.gui.center.add({
+    type = "frame",
+    name = "replicating_belts_config",
+    direction = "vertical",
+  })
+  -- vertical flow for all options
+  local config_flow = settings.add({
+    type = "flow",
+    direction = "vertical",
+    name = "replicating_belts_config_flow",
+  })
+  -- horizontal flow for the choose-elem buttons
+  local button_flow = config_flow.add({
+    type = "flow",
+    direction = "horizontal",
+    name = "replicating_belts_config_buttons",
+  })
+  -- locked button displaying belt type (todo, would be nice to find a way to make this look non-interactive)
+  local belt_button = button_flow.add({
+    type = "choose-elem-button",
+    name = "replicating_belts_config_belt_button",
+    style = "slot_button",
+    elem_type = "item",
+    tooltip = {"replicating-belts.config-current-belt-type"},
+  })
+  belt_button.elem_value = event.item.name
+  belt_button.locked = true
+  -- button for changing which underground belt is used (todo, would be nice to somehow be able to filter this down to showing just items that create an underground-belt entity)
+  local underground_button = button_flow.add({
+    type = "choose-elem-button",
+    name = "replicating_belts_config_underground_button",
+    style = "slot_button",
+    elem_type = "item",
+    item = belt_type_mapping[event.item.name].underground,
+    tooltip = {"replicating-belts.config-underground-belt-to-place"},
+  })
+  underground_button.elem_value = get_config(event.player_index, event.item.name, "underground")
+
+  -- checkbox for setting the pathing strategy to prefer underground
+  local mode_checkbox = config_flow.add({
+    type = "checkbox",
+    name = "replicating_belts_config_mode_toggle",
+    state = get_config(event.player_index, event.item.name, "prefer_underground"),
+    caption = {"replicating-belts.config-prefer-underground"},
+  })
+
+  -- set the player's current opened gui to the frame
+  player.opened = settings
+end
+
 local function on_built_entity(event)
   if event.created_entity.type == "entity-ghost" then
     if belt_type_mapping[event.created_entity.ghost_name] then
@@ -606,3 +717,62 @@ local function on_player_rotated_entity(event)
   end
 end
 script.on_event(defines.events.on_player_rotated_entity, on_player_rotated_entity)
+
+local function on_mod_item_opened(event)
+  if belt_type_mapping[event.item.name] then
+    open_gui(event)
+  end
+end
+script.on_event(defines.events.on_mod_item_opened, on_mod_item_opened)
+
+local function on_gui_elem_changed(event)
+  if event.element.name == "replicating_belts_config_underground_button" then
+    local player_index = event.player_index
+    local underground = event.element.elem_value
+    local button_flow = event.element.parent
+    local belt = button_flow.replicating_belts_config_belt_button.elem_value
+
+    if underground == nil or game.entity_prototypes[underground].type ~= "underground-belt" then
+      -- not an underground belt, revert to default
+      underground = belt_type_mapping[belt].underground
+      event.element.elem_value = belt_type_mapping[belt].underground
+    end
+    if game.entity_prototypes[underground].has_flag("not-blueprintable") then
+      -- ಠ_ಠ
+      game.players[player_index].print("Can't use selected underground belt, its mod author has flagged it as not-blueprintable")
+      underground = belt_type_mapping[belt].underground
+      event.element.elem_value = belt_type_mapping[belt].underground
+    end
+    if not global.rbconfig[player_index] then
+      global.rbconfig[player_index] = {}
+    end
+    if not global.rbconfig[player_index][belt] then
+      global.rbconfig[player_index][belt] = {}
+    end
+    global.rbconfig[player_index][belt].underground = underground
+  end
+end
+script.on_event(defines.events.on_gui_elem_changed, on_gui_elem_changed)
+
+local function on_gui_checked_state_changed(event)
+  if event.element.name == "replicating_belts_config_mode_toggle" then
+    local player_index = event.player_index
+    local parent_flow = event.element.parent
+    local belt = parent_flow.replicating_belts_config_buttons.replicating_belts_config_belt_button.elem_value
+    if not global.rbconfig[player_index] then
+      global.rbconfig[player_index] = {}
+    end
+    if not global.rbconfig[player_index][belt] then
+      global.rbconfig[player_index][belt] = {}
+    end
+    global.rbconfig[player_index][belt].prefer_underground = event.element.state
+  end
+end
+script.on_event(defines.events.on_gui_checked_state_changed, on_gui_checked_state_changed)
+
+local function on_gui_closed(event)
+  if event.element and event.element.name == "replicating_belts_config" then
+    event.element.destroy()
+  end
+end
+script.on_event(defines.events.on_gui_closed, on_gui_closed)

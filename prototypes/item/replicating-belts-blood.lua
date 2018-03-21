@@ -1,5 +1,5 @@
 local replicating_blood_belt = {
-  type = "item",
+  type = "item-with-label",
   name = "replicating-blood-belt",
   subgroup = "replicating-belt",
   order = "d[replicating-transport-belt]-d[replicating-blood-belt]",
@@ -12,10 +12,11 @@ local replicating_blood_belt = {
   flags = {"goes-to-quickbar"},
   place_result = "replicating-blood-belt",
   stack_size = 100,
+  can_be_mod_opened = true,
 }
 
 local replicating_fast_blood_belt = {
-  type = "item",
+  type = "item-with-label",
   name = "replicating-fast-blood-belt",
   subgroup = "replicating-belt",
   order = "d[replicating-transport-belt]-e[replicating-fast-blood-belt]",
@@ -28,10 +29,11 @@ local replicating_fast_blood_belt = {
   flags = {"goes-to-quickbar"},
   place_result = "replicating-fast-blood-belt",
   stack_size = 100,
+  can_be_mod_opened = true,
 }
 
 local replicating_express_blood_belt = {
-  type = "item",
+  type = "item-with-label",
   name = "replicating-express-blood-belt",
   subgroup = "replicating-belt",
   order = "d[replicating-transport-belt]-f[replicating-express-blood-belt]",
@@ -44,6 +46,7 @@ local replicating_express_blood_belt = {
   flags = {"goes-to-quickbar"},
   place_result = "replicating-express-blood-belt",
   stack_size = 100,
+  can_be_mod_opened = true,
 }
 
 data:extend{replicating_blood_belt, replicating_fast_blood_belt, replicating_express_blood_belt}
