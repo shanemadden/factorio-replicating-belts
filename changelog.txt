@@ -2,7 +2,7 @@
 Version: 0.16.6
 Date: 31. 3. 2018
   Bugfixes:
-    - Update Bob's Logistics support to use the new entity strings as of 0.16.16.  Added workarounds for the fact that Bob's Logisitics now interferes with entities from Ultimate Belts as gracefully as possible, but we'll be back to crashing and need more changes once one mod or the other updates to move off of the "ultimate-transport-belt" id.
+    - Update Bob's Logistics support to use the new entity strings as of 0.16.18.  Added workarounds for the fact that Bob's Logistics now interferes with entities from Ultimate Belts as gracefully as possible, but we'll be back to crashing and need more changes once one mod or the other updates to move off of the "ultimate-transport-belt" id.
 ---------------------------------------------------------------------------------------------------
 Version: 0.16.5
 Date: 21. 3. 2018
