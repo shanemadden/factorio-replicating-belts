@@ -1,0 +1,18 @@
+{
+  "entity": [
+    [ "replicating-green-transport-belt", "replicating-turbo-transport-belt" ],
+    [ "replicating-purple-transport-belt", "replicating-ultrabob-transport-belt" ]
+  ],
+  "item": [
+    [ "replicating-green-transport-belt", "replicating-turbo-transport-belt" ],
+    [ "replicating-purple-transport-belt", "replicating-ultrabob-transport-belt" ]
+  ],
+  "recipe": [
+    [ "replicating-green-transport-belt", "replicating-turbo-transport-belt" ],
+    [ "replicating-purple-transport-belt", "replicating-ultrabob-transport-belt" ]
+  ],
+  "technology": [
+    [ "replicating-green-transport-belt", "replicating-turbo-transport-belt" ],
+    [ "replicating-purple-transport-belt", "replicating-ultrabob-transport-belt" ]
+  ]
+}

@@ -1,12 +1,12 @@
-local replicating_green_transport_belt = {
+local replicating_turbo_transport_belt = {
   type = "technology",
-  name = "replicating-green-transport-belt",
-  icon = "__replicating-belts__/graphics/technology/bob/replicating-green-transport-belt.png",
+  name = "replicating-turbo-transport-belt",
+  icon = "__replicating-belts__/graphics/technology/bob/replicating-purple-transport-belt.png",
   icon_size = 128,
   effects = {
     {
       type = "unlock-recipe",
-      recipe = "replicating-green-transport-belt",
+      recipe = "replicating-turbo-transport-belt",
     }
   },
   prerequisites = { "bob-logistics-4", "replicating-transport-belt" },
@@ -24,18 +24,18 @@ local replicating_green_transport_belt = {
   order = "a-f-d-z",
 }
 
-local replicating_purple_transport_belt = {
+local replicating_ultrabob_transport_belt = {
   type = "technology",
-  name = "replicating-purple-transport-belt",
-  icon = "__replicating-belts__/graphics/technology/bob/replicating-purple-transport-belt.png",
+  name = "replicating-ultrabob-transport-belt",
+  icon = "__replicating-belts__/graphics/technology/bob/replicating-green-transport-belt.png",
   icon_size = 128,
   effects = {
     {
       type = "unlock-recipe",
-      recipe = "replicating-purple-transport-belt"
+      recipe = "replicating-ultrabob-transport-belt"
     }
   },
-  prerequisites = { "bob-logistics-5", "replicating-green-transport-belt" },
+  prerequisites = { "bob-logistics-5", "replicating-turbo-transport-belt" },
   unit = {
     count = 1000,
     ingredients =
@@ -51,4 +51,4 @@ local replicating_purple_transport_belt = {
   order = "a-f-e-z",
 }
 
-data:extend{replicating_green_transport_belt, replicating_purple_transport_belt}
+data:extend{replicating_turbo_transport_belt, replicating_ultrabob_transport_belt}

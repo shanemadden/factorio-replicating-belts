@@ -2,6 +2,7 @@
 -- todo deactivate when not-our-belt is placed right in front of us
 -- todo config for overriding max, min(?) distance, reset buttons for sliders
 -- todo detect if we're pathing over existing undergrounds that'll interfere with our planned path
+-- todo option for leaving space around obstacles
 local scan_max_distance = 1000
 local belt_type_mapping = {
   -- yellow
@@ -47,15 +48,15 @@ local belt_type_mapping = {
     belt = "furious-transport-belt",
     underground = "furious-transport-belt-to-ground",
   },
-  -- bob's green
-  ["replicating-green-transport-belt"] = {
-    belt = "green-transport-belt",
-    underground = "green-underground-belt",
-  },
   -- bob's purple
-  ["replicating-purple-transport-belt"] = {
-    belt = "purple-transport-belt",
-    underground = "purple-underground-belt",
+  ["replicating-turbo-transport-belt"] = {
+    belt = "turbo-transport-belt",
+    underground = "turbo-underground-belt",
+  },
+  -- bob's green
+  ["replicating-ultrabob-transport-belt"] = {
+    belt = "ultimate-transport-belt",
+    underground = "ultimate-underground-belt",
   },
   -- ultimate t1
   ["replicating-ultra-fast-belt"] = {
@@ -78,6 +79,7 @@ local belt_type_mapping = {
     underground = "extreme-express-underground-belt",
   },
   -- ultimate t5
+  -- todo, currenly using bob's overwritten belts if they're both loaded, these entity names will likely be updated soon
   ["replicating-ultimate-transport-belt"] = {
     belt = "ultimate-transport-belt",
     underground = "ultimate-underground-belt",

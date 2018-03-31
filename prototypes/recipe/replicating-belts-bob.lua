@@ -1,23 +1,24 @@
-local replicating_green_transport_belt = {
+local replicating_turbo_transport_belt = {
   type = "recipe",
-  name = "replicating-green-transport-belt",
+  name = "replicating-turbo-transport-belt",
   enabled = false,
   ingredients = {
-    {'green-transport-belt', 1},
+    {'turbo-transport-belt', 1},
     {'electronic-circuit', 1},
   },
-  result = "replicating-green-transport-belt",
+  result = "replicating-turbo-transport-belt",
 }
 
-local replicating_purple_transport_belt = {
+local replicating_ultrabob_transport_belt = {
   type = "recipe",
-  name = "replicating-purple-transport-belt",
+  name = "replicating-ultrabob-transport-belt",
   enabled = false,
   ingredients = {
-    {'purple-transport-belt', 1},
+    {'ultimate-transport-belt', 1},
     {'electronic-circuit', 1},
   },
-  result = "replicating-purple-transport-belt",
+  result = "replicating-ultrabob-transport-belt",
 }
 
-data:extend{replicating_green_transport_belt, replicating_purple_transport_belt}
+
+data:extend{replicating_turbo_transport_belt, replicating_ultrabob_transport_belt}

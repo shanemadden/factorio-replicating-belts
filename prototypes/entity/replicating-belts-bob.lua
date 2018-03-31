@@ -17,17 +17,18 @@ local attributes_with_filenames = {
 -- bob's license doesn't allow copying (and currently doesn't have high res textures) so use our
 -- own sloppily recolored versions of the express belt, which match bob's belts frame count
 local entity_mapping = {
-  -- green
-  ["replicating-green-transport-belt"] = {
-    copy = "green-transport-belt",
-    filename = "__replicating-belts__/graphics/entity/transport-belt/bob/replicating-green-transport-belt.png",
-    hr_file = "__replicating-belts__/graphics/entity/transport-belt/bob/hr-replicating-green-transport-belt.png",
-  },
-  -- purple
-  ["replicating-purple-transport-belt"] = {
-    copy = "purple-transport-belt",
+  -- purple / turbo
+  ["replicating-turbo-transport-belt"] = {
+    copy = "turbo-transport-belt",
     filename = "__replicating-belts__/graphics/entity/transport-belt/bob/replicating-purple-transport-belt.png",
     hr_file = "__replicating-belts__/graphics/entity/transport-belt/bob/hr-replicating-purple-transport-belt.png",
+  },
+  -- green / ultimate
+  -- workaround here for bob updating his mod with a naming conflict, since we're already mapping to "replicating-ultimate-transport-belt" in control.lua
+  ["replicating-ultrabob-transport-belt"] = {
+    copy = "ultimate-transport-belt",
+    filename = "__replicating-belts__/graphics/entity/transport-belt/bob/replicating-green-transport-belt.png",
+    hr_file = "__replicating-belts__/graphics/entity/transport-belt/bob/hr-replicating-green-transport-belt.png",
   },
 }
 
