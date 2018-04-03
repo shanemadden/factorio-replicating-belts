@@ -79,10 +79,9 @@ local belt_type_mapping = {
     underground = "extreme-express-underground-belt",
   },
   -- ultimate t5
-  -- todo, currenly using bob's overwritten belts if they're both loaded, these entity names will likely be updated soon
   ["replicating-ultimate-transport-belt"] = {
-    belt = "ultimate-transport-belt",
-    underground = "ultimate-underground-belt",
+    belt = "ultimate-belt",
+    underground = "original-ultimate-underground-belt",
   },
 }
 

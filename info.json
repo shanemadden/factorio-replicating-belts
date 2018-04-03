@@ -1,6 +1,6 @@
 {
     "name": "replicating-belts",
-    "version": "0.16.6",
+    "version": "0.16.7",
     "title": "Replicating Belts",
     "author": "Shane Madden",
     "homepage": "https://github.com/shanemadden/factorio-replicating-belts",
@@ -8,9 +8,9 @@
     "dependencies": [
         "base >= 0.16.24",
         "? bloodbelt >= 0.15",
-        "? boblogistics >= 0.16.16",
+        "? boblogistics >= 0.16.18",
         "? FactorioExtended-Transport >= 0.3.1",
-        "? UltimateBelts >= 0.16"
+        "? UltimateBelts >= 0.16.4"
     ],
     "description": "Adds replicating belts of each belt type, enabling non-blueprint belt placement with fewer clicks"
 }

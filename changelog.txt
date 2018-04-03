@@ -1,4 +1,9 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.16.7
+Date: 2. 4. 2018
+  Bugfixes:
+    - Update for Ultimate Belts moving out of prototype namespace collision from Bob's changes.
+---------------------------------------------------------------------------------------------------
 Version: 0.16.6
 Date: 31. 3. 2018
   Bugfixes:

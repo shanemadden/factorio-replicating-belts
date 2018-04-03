@@ -42,18 +42,11 @@ local entity_mapping = {
   },
   -- t5
   ["replicating-ultimate-transport-belt"] = {
-    copy = "ultimate-transport-belt",
+    copy = "ultimate-belt",
     filename = "__replicating-belts__/graphics/entity/transport-belt/ultimate/replicating-ultimate-transport-belt.png",
     hr_file = "__replicating-belts__/graphics/entity/transport-belt/ultimate/hr-replicating-ultimate-transport-belt.png",
   },
 }
-
--- ugly hack to avoid crashing when both bob's and ultimate are loaded while bob's entities are
--- overwriting ultimates since their sprite sheets have different frame counts, sigh..
-if data.raw["transport-belt"]["ultimate-transport-belt"].icon == "__boblogistics__/graphics/icons/green-transport-belt.png" then
-  entity_mapping["replicating-ultimate-transport-belt"].filename = "__replicating-belts__/graphics/entity/transport-belt/bob/replicating-green-transport-belt.png"
-  entity_mapping["replicating-ultimate-transport-belt"].hr_file = "__replicating-belts__/graphics/entity/transport-belt/bob/hr-replicating-green-transport-belt.png"
-end
 
 local belts = data.raw["transport-belt"]
 for k, v in pairs(entity_mapping) do

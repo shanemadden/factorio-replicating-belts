@@ -47,7 +47,7 @@ local replicating_ultimate_transport_belt = {
   name = "replicating-ultimate-transport-belt",
   enabled = false,
   ingredients = {
-    {'ultimate-transport-belt', 1},
+    {'ultimate-belt', 1},
     {'electronic-circuit', 1},
   },
   result = "replicating-ultimate-transport-belt",
