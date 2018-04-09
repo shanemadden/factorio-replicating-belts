@@ -48,6 +48,16 @@ local belt_type_mapping = {
     belt = "furious-transport-belt",
     underground = "furious-transport-belt-to-ground",
   },
+  -- extendedplus mk1
+  ["replicating-rapid-transport-belt-mk1"] = {
+    belt = "rapid-transport-belt-mk1",
+    underground = "rapid-transport-belt-to-ground-mk1",
+  },
+  -- extendedplus mk2
+  ["replicating-rapid-transport-belt-mk2"] = {
+    belt = "rapid-transport-belt-mk2",
+    underground = "rapid-transport-belt-to-ground-mk2",
+  },
   -- bob's purple
   ["replicating-turbo-transport-belt"] = {
     belt = "turbo-transport-belt",
@@ -534,7 +544,7 @@ local function check_direction(entity, search_direction, direction_filter, playe
     force = entity.force,
   })
   for k,v in pairs(entities) do
-    if direction_filter[v.direction] then
+    if direction_filter[v.direction] and not v.to_be_deconstructed(v.force) then
       -- this one's facing in a direction we're interested in, let's check whether it's the closest one we've seen
       local match_distance
       if search_direction == north or search_direction == south then
@@ -595,6 +605,10 @@ local function check_direction(entity, search_direction, direction_filter, playe
 end
 
 local function scan_from_entity(entity, player_index)
+  if entity.to_be_deconstructed(entity.force) then
+    -- don't trigger from deconstructing entities
+    return
+  end
   for _, v in pairs(scan_directions[entity.direction]) do
     -- scan in the three directions a matching belt might be facing us in
     check_direction(entity, v, facing_toward_the_scanner_filters[v], player_index, false)

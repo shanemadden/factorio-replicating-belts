@@ -22,3 +22,9 @@ if data.raw.item["blistering-transport-belt"] then
   require "prototypes.recipe.replicating-belts-extended"
   require "prototypes.technology.replicating-belts-extended"
 end
+if data.raw.item["rapid-transport-belt-mk1"] then
+  require "prototypes.entity.replicating-belts-extendedplus"
+  require "prototypes.item.replicating-belts-extendedplus"
+  require "prototypes.recipe.replicating-belts-extendedplus"
+  require "prototypes.technology.replicating-belts-extendedplus"
+end

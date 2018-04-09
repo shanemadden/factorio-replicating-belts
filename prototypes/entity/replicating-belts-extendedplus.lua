@@ -14,20 +14,19 @@ local attributes_with_filenames = {
   "starting_bottom",
   "starting_side",
 }
--- bob's license doesn't allow copying (and currently doesn't have high res textures) so use our
--- own sloppily recolored versions of the express belt, which match bob's belts frame count
+
 local entity_mapping = {
-  -- purple / turbo
-  ["replicating-turbo-transport-belt"] = {
-    copy = "turbo-transport-belt",
-    filename = "__replicating-belts__/graphics/entity/transport-belt/bob/replicating-purple-transport-belt.png",
-    hr_file = "__replicating-belts__/graphics/entity/transport-belt/bob/hr-replicating-purple-transport-belt.png",
-  },
-  -- green / ultimate
-  ["replicating-ultrabob-transport-belt"] = {
-    copy = "ultimate-transport-belt",
+  -- mk1
+  ["replicating-rapid-transport-belt-mk1"] = {
+    copy = "rapid-transport-belt-mk1",
     filename = "__replicating-belts__/graphics/entity/transport-belt/bob/replicating-green-transport-belt.png",
     hr_file = "__replicating-belts__/graphics/entity/transport-belt/bob/hr-replicating-green-transport-belt.png",
+  },
+  -- mk2
+  ["replicating-rapid-transport-belt-mk2"] = {
+    copy = "rapid-transport-belt-mk2",
+    filename = "__replicating-belts__/graphics/entity/transport-belt/bob/replicating-purple-transport-belt.png",
+    hr_file = "__replicating-belts__/graphics/entity/transport-belt/bob/hr-replicating-purple-transport-belt.png",
   },
 }
 
