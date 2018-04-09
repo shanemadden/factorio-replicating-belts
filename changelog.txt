@@ -4,7 +4,7 @@ Date: 9. 4. 2018
   Info:
     - Added support for FactorioExtended Plus-Transport
   Bugfixes:
-    - Update for Ultimate Belts moving out of prototype namespace collision from Bob's changes.
+    - Prevent deconstruction-marked replicating belts from activating
 ---------------------------------------------------------------------------------------------------
 Version: 0.16.7
 Date: 2. 4. 2018
