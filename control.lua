@@ -205,6 +205,32 @@ local facing_toward_the_scanner_filters = {
   },
 }
 
+local function get_neighbor_entities(entity, search_direction)
+  local neighbor
+  if search_direction == north then
+    neighbor = entity.surface.find_entities_filtered({
+      position = {entity.position.x, entity.position.y-1},
+      force = entity.force,
+    })
+  elseif search_direction == south then
+    neighbor = entity.surface.find_entities_filtered({
+      position = {entity.position.x, entity.position.y+1},
+      force = entity.force,
+    })
+  elseif search_direction == east then
+    neighbor = entity.surface.find_entities_filtered({
+      position = {entity.position.x+1, entity.position.y},
+      force = entity.force,
+    })
+  elseif search_direction == west then
+    neighbor = entity.surface.find_entities_filtered({
+      position = {entity.position.x-1, entity.position.y},
+      force = entity.force,
+    })
+  end
+  return neighbor
+end
+
 local function get_neighbor_belt(entity, search_direction, direction_filter)
   local neighbor
   if search_direction == north then
@@ -302,6 +328,9 @@ local build_plan_output = 4
 -- keep these references out here and reuse the same tables to reduce the GC churn
 local placability = {}
 local build_plan = {}
+
+-- track which belts were involved in some way with the current replication, to test if we need to downconvert them later
+local touched_belts = {}
 local function check_path(source_entity, dest_entity, path_distance, player_index)
   local config_player = player_index
   if not config_player then
@@ -473,30 +502,13 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
     if belt_type_mapping[source_entity.name].autoconnect then
       try_autoconnect(source_entity)
     end
-    -- delete the replicating belt and convert down to a regular belt
-    local target_position = source_entity.position
-    surface.create_entity({
-      name = belt_name,
-      position = target_position,
-      direction = direction,
-      force = dest_entity.force,
-      fast_replace = true,
-      spill = false,
-    })
     if #build_plan == 0 then
-      -- we built a 0-length run, see if we can give the player a replicating belt back at the cost of a normal belt
-      if player_index then
-        local player = game.players[player_index]
-        if player.get_item_count(belt_name) > 0 then
-          player.insert({
-            name = replicating_name,
-            count = player.remove_item({
-              name = belt_name,
-              count = 1,
-            })
-          })
-        end
-      end
+      -- potentially giving a refund if we downgrade either end since this was a 0-length run
+      touched_belts[source_entity] = true
+      touched_belts[dest_entity] = true
+    else
+      touched_belts[source_entity] = false
+      touched_belts[dest_entity] = false
     end
   end
   -- clear these tables out for use next time
@@ -505,6 +517,56 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
   end
   for k in pairs(placability) do
     placability[k] = nil
+  end
+end
+
+local function check_downgrade(entity, refund, player_index)
+  local downgrade = false
+  if not can_build_in_spot(entity, 1) then
+    for _, v in pairs(scan_directions[entity.direction]) do
+      local neighbors = get_neighbor_entities(entity, v)
+      for _, neighbor in pairs(neighbors) do
+        if facing_toward_the_scanner_filters[v][neighbor.direction] then
+          local neighbortype
+          if entity.type == "entity-ghost" then
+            neighbortype = entity.ghost_type
+          else
+            neighbortype = entity.type
+          end
+          if neighbortype == "transport-belt" or neighbortype == "splitter" or (neighbortype == "underground-belt" and neighbor.belt_to_ground_type == "output") then
+            downgrade = true
+          end
+        end
+      end
+    end
+    if downgrade then
+      local surface = entity.surface
+      local replicating_belt_name = entity.name
+      local belt_name = belt_type_mapping[entity.name].belt
+      local position = entity.position
+      local direction = entity.direction
+      local force = entity.force
+      surface.create_entity({
+        name = belt_name,
+        position = position,
+        direction = direction,
+        force = force,
+        fast_replace = true,
+        spill = false,
+      })
+      if player_index and refund then
+        local player = game.players[player_index]
+        if player.get_item_count(belt_name) > 0 then
+          player.insert({
+            name = replicating_belt_name,
+            count = player.remove_item({
+              name = belt_name,
+              count = 1,
+            })
+          })
+        end
+      end
+    end
   end
 end
 
@@ -622,37 +684,18 @@ local function scan_from_entity(entity, player_index)
       try_autoconnect(entity)
     end
     if not can_build_in_spot(entity, 1) then
-      local surface = entity.surface
-      local replicating_belt_name = entity.name
-      local belt_name = belt_type_mapping[entity.name].belt
-      local position = entity.position
-      local direction = entity.direction
-      local force = entity.force
-      surface.create_entity({
-        name = belt_name,
-        position = position,
-        direction = direction,
-        force = force,
-        fast_replace = true,
-        spill = false,
-      })
-      if player_index then
-        -- a player triggered this, try to refund them (bots are out of luck)
-        local player = game.players[player_index]
-        if player.get_item_count(belt_name) > 0 then
-          player.insert({
-            name = replicating_belt_name,
-            count = player.remove_item({
-              name = belt_name,
-              count = 1,
-            })
-          })
-        end
-      end
+      -- mark for potential refund
+      touched_belts[entity] = true
     else
-      -- no obstruction directly forward, so let's check if we can build from here forward too
-      check_direction(entity, entity.direction, facing_any_but_opposite_filters[entity.direction], player_index, true)
+      touched_belts[entity] = false
     end
+    check_direction(entity, entity.direction, facing_any_but_opposite_filters[entity.direction], player_index, true)
+  end
+  for entity, refund in pairs(touched_belts) do
+    check_downgrade(entity, refund, player_index)
+  end
+  for k in pairs(touched_belts) do
+    touched_belts[k] = nil
   end
 end
 
