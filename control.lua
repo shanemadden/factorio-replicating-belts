@@ -519,7 +519,34 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
     placability[k] = nil
   end
 end
-
+local function trigger_downgrade(entity, refund, player_index)
+  local surface = entity.surface
+  local replicating_belt_name = entity.name
+  local belt_name = belt_type_mapping[entity.name].belt
+  local position = entity.position
+  local direction = entity.direction
+  local force = entity.force
+  surface.create_entity({
+    name = belt_name,
+    position = position,
+    direction = direction,
+    force = force,
+    fast_replace = true,
+    spill = false,
+  })
+  if player_index and refund then
+    local player = game.players[player_index]
+    if player.get_item_count(belt_name) > 0 then
+      player.insert({
+        name = replicating_belt_name,
+        count = player.remove_item({
+          name = belt_name,
+          count = 1,
+        })
+      })
+    end
+  end
+end
 local function check_downgrade(entity, refund, player_index)
   local downgrade = false
   if not can_build_in_spot(entity, 1) then
@@ -540,32 +567,7 @@ local function check_downgrade(entity, refund, player_index)
       end
     end
     if downgrade then
-      local surface = entity.surface
-      local replicating_belt_name = entity.name
-      local belt_name = belt_type_mapping[entity.name].belt
-      local position = entity.position
-      local direction = entity.direction
-      local force = entity.force
-      surface.create_entity({
-        name = belt_name,
-        position = position,
-        direction = direction,
-        force = force,
-        fast_replace = true,
-        spill = false,
-      })
-      if player_index and refund then
-        local player = game.players[player_index]
-        if player.get_item_count(belt_name) > 0 then
-          player.insert({
-            name = replicating_belt_name,
-            count = player.remove_item({
-              name = belt_name,
-              count = 1,
-            })
-          })
-        end
-      end
+      trigger_downgrade(entity, refund, player_index)
     end
   end
 end
@@ -772,9 +774,17 @@ local function on_robot_built_entity(event)
 end
 script.on_event(defines.events.on_robot_built_entity, on_robot_built_entity)
 
+local counterclock = {
+  [north] = west,
+  [south] = east,
+  [east] = north,
+  [west] = south,
+}
 local function on_player_rotated_entity(event)
   if belt_type_mapping[event.entity.name] then
-    scan_from_entity(event.entity, event.player_index)
+    -- if the player's holding shift then they already rotated counterclockwise and the belt will be 180 degree flipped - it's a feature!
+    event.entity.direction = counterclock[event.entity.direction]
+    trigger_downgrade(event.entity, true, event.player_index)
   end
 end
 script.on_event(defines.events.on_player_rotated_entity, on_player_rotated_entity)
