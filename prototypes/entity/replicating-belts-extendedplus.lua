@@ -19,12 +19,14 @@ local entity_mapping = {
   -- mk1
   ["replicating-rapid-transport-belt-mk1"] = {
     copy = "rapid-transport-belt-mk1",
+    icon = "__replicating-belts__/graphics/icons/bob/replicating-green-transport-belt.png",
     filename = "__replicating-belts__/graphics/entity/transport-belt/bob/replicating-green-transport-belt.png",
     hr_file = "__replicating-belts__/graphics/entity/transport-belt/bob/hr-replicating-green-transport-belt.png",
   },
   -- mk2
   ["replicating-rapid-transport-belt-mk2"] = {
     copy = "rapid-transport-belt-mk2",
+    icon = "__replicating-belts__/graphics/icons/bob/replicating-purple-transport-belt.png",
     filename = "__replicating-belts__/graphics/entity/transport-belt/bob/replicating-purple-transport-belt.png",
     hr_file = "__replicating-belts__/graphics/entity/transport-belt/bob/hr-replicating-purple-transport-belt.png",
   },
@@ -36,6 +38,7 @@ for k, v in pairs(entity_mapping) do
   -- set the name and mining result to the replicating belt type
   entity.name = k
   entity.minable.result = k
+  entity.icon = v.icon
   -- iterate the sprites and point to the tinted file
   for _, attribute in ipairs(attributes_with_filenames) do
     if entity[attribute].filename then
