@@ -471,32 +471,61 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
       elseif direction == west then
         target_position = {source_entity.position.x-i, source_entity.position.y}
       end
-      if v == build_plan_belt then
-        surface.create_entity({
-          name = "entity-ghost",
-          inner_name = belt_name,
-          position = target_position,
-          direction = direction,
-          force = source_entity.force,
-        })
-      elseif v == build_plan_input then
-        surface.create_entity({
-          name = "entity-ghost",
-          inner_name = underground_name,
-          position = target_position,
-          direction = direction,
-          force = source_entity.force,
-          type = "input",
-        })
-      elseif v == build_plan_output then
-        surface.create_entity({
-          name = "entity-ghost",
-          inner_name = underground_name,
-          position = target_position,
-          direction = direction,
-          force = source_entity.force,
-          type = "output",
-        })
+      if player_index and game.players[player_index].cheat_mode then
+        -- cheat mode, build for free
+        if v == build_plan_belt then
+          surface.create_entity({
+            name = belt_name,
+            position = target_position,
+            direction = direction,
+            force = source_entity.force,
+          })
+        elseif v == build_plan_input then
+          surface.create_entity({
+            name = underground_name,
+            position = target_position,
+            direction = direction,
+            force = source_entity.force,
+            type = "input",
+          })
+        elseif v == build_plan_output then
+          surface.create_entity({
+            name = underground_name,
+            position = target_position,
+            direction = direction,
+            force = source_entity.force,
+            type = "output",
+          })
+        end
+      else
+        -- normal mode, make ghosts
+        if v == build_plan_belt then
+          surface.create_entity({
+            name = "entity-ghost",
+            inner_name = belt_name,
+            position = target_position,
+            direction = direction,
+            force = source_entity.force,
+          })
+        elseif v == build_plan_input then
+          surface.create_entity({
+            name = "entity-ghost",
+            inner_name = underground_name,
+            position = target_position,
+            direction = direction,
+            force = source_entity.force,
+            type = "input",
+          })
+        elseif v == build_plan_output then
+          surface.create_entity({
+            name = "entity-ghost",
+            inner_name = underground_name,
+            position = target_position,
+            direction = direction,
+            force = source_entity.force,
+            type = "output",
+          })
+        end
       end
     end
     if belt_type_mapping[source_entity.name].autoconnect then
@@ -555,10 +584,10 @@ local function check_downgrade(entity, refund, player_index)
       for _, neighbor in pairs(neighbors) do
         if facing_toward_the_scanner_filters[v][neighbor.direction] then
           local neighbortype
-          if entity.type == "entity-ghost" then
-            neighbortype = entity.ghost_type
+          if neighbor.type == "entity-ghost" then
+            neighbortype = neighbor.ghost_type
           else
-            neighbortype = entity.type
+            neighbortype = neighbor.type
           end
           if neighbortype == "transport-belt" or neighbortype == "splitter" or (neighbortype == "underground-belt" and neighbor.belt_to_ground_type == "output") then
             downgrade = true
