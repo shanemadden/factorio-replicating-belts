@@ -578,6 +578,9 @@ local function trigger_downgrade(entity, refund, player_index)
 end
 local function check_downgrade(entity, refund, player_index)
   local downgrade = false
+  if entity.type == "entity-ghost" then
+    return
+  end
   if not can_build_in_spot(entity, 1) then
     for _, v in pairs(scan_directions[entity.direction]) do
       local neighbors = get_neighbor_entities(entity, v)
