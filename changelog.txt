@@ -4,8 +4,8 @@ Date: 28. 4. 2018
   Bugfixes:
     - Update icons of copied entities to match items
   Info:
-    - Improve activation logic to allow building of replication belt runs both backward and forward
-    - Override rotation for replicating belts - rotating one will trigger a downgrade (refunding if possible)
+    - Improve activation logic to allow building of replicating belt runs both backward and forward
+    - Override rotation for replicating belts - rotating one will instead trigger a downgrade (refunding if possible)
     - If cheat mode is active, place real entities instead of ghosts
 ---------------------------------------------------------------------------------------------------
 Version: 0.16.8
