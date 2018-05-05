@@ -1,4 +1,10 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.16.10
+Date: 5. 5. 2018
+  Info:
+    - Added support for 5Dim-Transport
+    - Include loaders in entities used for deactivation detection
+---------------------------------------------------------------------------------------------------
 Version: 0.16.9
 Date: 28. 4. 2018
   Bugfixes:
