@@ -1,12 +1,13 @@
 {
     "name": "replicating-belts",
-    "version": "0.16.9",
+    "version": "0.16.10",
     "title": "Replicating Belts",
     "author": "Shane Madden",
     "homepage": "https://github.com/shanemadden/factorio-replicating-belts",
     "factorio_version": "0.16",
     "dependencies": [
         "base >= 0.16.24",
+        "? 5dim_transport >= 0.16.8",
         "? bloodbelt >= 0.15",
         "? boblogistics >= 0.16.18",
         "? FactorioExtended-Transport >= 0.3.1",

@@ -20,6 +20,16 @@ local belt_type_mapping = {
     belt = "express-transport-belt",
     underground = "express-underground-belt",
   },
+  -- 5dim mk4
+  ["replicating-5d-mk4-transport-belt"] = {
+    belt = "5d-mk4-transport-belt",
+    underground = "5d-mk4-transport-belt-to-ground",
+  },
+  -- 5dim mk5
+  ["replicating-5d-mk5-transport-belt"] = {
+    belt = "5d-mk5-transport-belt",
+    underground = "5d-mk5-transport-belt-to-ground",
+  },
   -- yellow blood
   ["replicating-blood-belt"] = {
     belt = "blood-belt",
@@ -592,7 +602,7 @@ local function check_downgrade(entity, refund, player_index)
           else
             neighbortype = neighbor.type
           end
-          if neighbortype == "transport-belt" or neighbortype == "splitter" or (neighbortype == "underground-belt" and neighbor.belt_to_ground_type == "output") then
+          if neighbortype == "transport-belt" or neighbortype == "splitter" or (neighbortype == "underground-belt" and neighbor.belt_to_ground_type == "output") or (neighbortype == "loader" and neighbor.loader_type == "output") then
             downgrade = true
           end
         end
