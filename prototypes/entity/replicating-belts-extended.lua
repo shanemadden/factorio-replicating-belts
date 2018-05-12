@@ -39,6 +39,7 @@ for k, v in pairs(entity_mapping) do
   entity.name = k
   entity.minable.result = k
   entity.icon = v.icon
+  entity.localised_name = {"replicating-belts.prefix", {[1] = string.format("replicating-belts.%s-lower", v.copy)}}
   -- iterate the sprites and point to the tinted file
   for _, attribute in ipairs(attributes_with_filenames) do
     if entity[attribute].filename then

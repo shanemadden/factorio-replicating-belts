@@ -1,6 +1,7 @@
 local replicating_blood_belt = {
   type = "item-with-label",
   name = "replicating-blood-belt",
+  localised_name = {"replicating-belts.prefix", {[1] = "replicating-belts.blood-belt-lower"}},
   subgroup = "replicating-belt",
   order = "d[replicating-transport-belt]-d[replicating-blood-belt]",
   icons = {
@@ -18,6 +19,7 @@ local replicating_blood_belt = {
 local replicating_fast_blood_belt = {
   type = "item-with-label",
   name = "replicating-fast-blood-belt",
+  localised_name = {"replicating-belts.prefix", {[1] = "replicating-belts.fast-blood-belt-lower"}},
   subgroup = "replicating-belt",
   order = "d[replicating-transport-belt]-e[replicating-fast-blood-belt]",
   icons = {
@@ -35,6 +37,7 @@ local replicating_fast_blood_belt = {
 local replicating_express_blood_belt = {
   type = "item-with-label",
   name = "replicating-express-blood-belt",
+  localised_name = {"replicating-belts.prefix", {[1] = "replicating-belts.express-blood-belt-lower"}},
   subgroup = "replicating-belt",
   order = "d[replicating-transport-belt]-f[replicating-express-blood-belt]",
   icons = {

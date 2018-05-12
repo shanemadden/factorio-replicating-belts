@@ -8,6 +8,7 @@ local subgroup = {
 local replicating_transport_belt = {
   type = "item-with-label",
   name = "replicating-transport-belt",
+  localised_name = {"replicating-belts.prefix", {[1] = "replicating-belts.transport-belt-lower"}},
   subgroup = "replicating-belt",
   order = "d[replicating-transport-belt]-a[replicating-transport-belt]",
   icons = {
@@ -25,6 +26,7 @@ local replicating_transport_belt = {
 local replicating_fast_transport_belt = {
   type = "item-with-label",
   name = "replicating-fast-transport-belt",
+  localised_name = {"replicating-belts.prefix", {[1] = "replicating-belts.fast-transport-belt-lower"}},
   subgroup = "replicating-belt",
   order = "d[replicating-transport-belt]-b[replicating-fast-transport-belt]",
   icons = {
@@ -42,6 +44,7 @@ local replicating_fast_transport_belt = {
 local replicating_express_transport_belt = {
   type = "item-with-label",
   name = "replicating-express-transport-belt",
+  localised_name = {"replicating-belts.prefix", {[1] = "replicating-belts.express-transport-belt-lower"}},
   subgroup = "replicating-belt",
   order = "d[replicating-transport-belt]-c[replicating-express-transport-belt]",
   icons = {

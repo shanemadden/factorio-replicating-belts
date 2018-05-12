@@ -1,6 +1,8 @@
 local replicating_rapid_mk1 = {
   type = "technology",
   name = "replicating-rapid-transport-belt-mk1",
+  localised_name = {"replicating-belts.prefix", {[1] = "replicating-belts.rapid-transport-belt-mk1-lower"}},
+  localised_description = {"replicating-belts.technology-description", {[1] = "replicating-belts.rapid-transport-belt-mk1-lower"}},
   icon = "__replicating-belts__/graphics/technology/bob/replicating-green-transport-belt.png",
   icon_size = 128,
   effects = {
@@ -27,6 +29,8 @@ local replicating_rapid_mk1 = {
 local replicating_rapid_mk2 = {
   type = "technology",
   name = "replicating-rapid-transport-belt-mk2",
+  localised_name = {"replicating-belts.prefix", {[1] = "replicating-belts.rapid-transport-belt-mk2-lower"}},
+  localised_description = {"replicating-belts.technology-description", {[1] = "replicating-belts.rapid-transport-belt-mk2-lower"}},
   icon = "__replicating-belts__/graphics/technology/bob/replicating-purple-transport-belt.png",
   icon_size = 128,
   effects = {

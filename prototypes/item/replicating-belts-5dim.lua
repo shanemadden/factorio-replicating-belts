@@ -1,6 +1,7 @@
 local replicating_5d_mk4 = {
   type = "item-with-label",
   name = "replicating-5d-mk4-transport-belt",
+  localised_name = {"replicating-belts.prefix", {[1] = "replicating-belts.5d-mk4-transport-belt-lower"}},
   subgroup = "replicating-belt",
   order = "d[replicating-transport-belt]-g[replicating-5d-mk4-transport-belt]",
   icons = {
@@ -18,6 +19,7 @@ local replicating_5d_mk4 = {
 local replicating_5d_mk5 = {
   type = "item-with-label",
   name = "replicating-5d-mk5-transport-belt",
+  localised_name = {"replicating-belts.prefix", {[1] = "replicating-belts.5d-mk5-transport-belt-lower"}},
   subgroup = "replicating-belt",
   order = "d[replicating-transport-belt]-h[replicating-5d-mk5-transport-belt]",
   icons = {

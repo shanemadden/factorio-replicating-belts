@@ -1,6 +1,7 @@
 local replicating_transport_belt = {
   type = "recipe",
   name = "replicating-transport-belt",
+  localised_name = {"replicating-belts.prefix", {[1] = "replicating-belts.transport-belt-lower"}},
   enabled = false,
   ingredients = {
     {'transport-belt', 1},
@@ -12,6 +13,7 @@ local replicating_transport_belt = {
 local replicating_fast_transport_belt = {
   type = "recipe",
   name = "replicating-fast-transport-belt",
+  localised_name = {"replicating-belts.prefix", {[1] = "replicating-belts.fast-transport-belt-lower"}},
   enabled = false,
   ingredients = {
     {'fast-transport-belt', 1},
@@ -23,6 +25,7 @@ local replicating_fast_transport_belt = {
 local replicating_express_transport_belt = {
   type = "recipe",
   name = "replicating-express-transport-belt",
+  localised_name = {"replicating-belts.prefix", {[1] = "replicating-belts.express-transport-belt-lower"}},
   enabled = false,
   ingredients = {
     {'express-transport-belt', 1},

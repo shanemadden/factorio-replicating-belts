@@ -1,6 +1,7 @@
 local replicating_rapid_mk1 = {
   type = "item-with-label",
   name = "replicating-rapid-transport-belt-mk1",
+  localised_name = {"replicating-belts.prefix", {[1] = "replicating-belts.rapid-transport-belt-mk1-lower"}},
   subgroup = "replicating-belt",
   order = "d[replicating-transport-belt]-g[replicating-rapid-transport-belt-mk1]",
   icons = {
@@ -18,6 +19,7 @@ local replicating_rapid_mk1 = {
 local replicating_rapid_mk2 = {
   type = "item-with-label",
   name = "replicating-rapid-transport-belt-mk2",
+  localised_name = {"replicating-belts.prefix", {[1] = "replicating-belts.rapid-transport-belt-mk2-lower"}},
   subgroup = "replicating-belt",
   order = "d[replicating-transport-belt]-h[replicating-rapid-transport-belt-mk2]",
   icons = {

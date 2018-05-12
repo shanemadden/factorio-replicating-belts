@@ -1,6 +1,8 @@
 local replicating_transport_belt = {
   type = "technology",
   name = "replicating-transport-belt",
+  localised_name = {"replicating-belts.prefix", {[1] = "replicating-belts.transport-belt-lower"}},
+  localised_description = {"replicating-belts.technology-description", {[1] = "replicating-belts.transport-belt-lower"}},
   icon = "__replicating-belts__/graphics/technology/replicating-transport-belt.png",
   icon_size = 128,
   effects = {
@@ -24,6 +26,8 @@ local replicating_transport_belt = {
 local replicating_fast_transport_belt = {
   type = "technology",
   name = "replicating-fast-transport-belt",
+  localised_name = {"replicating-belts.prefix", {[1] = "replicating-belts.fast-transport-belt-lower"}},
+  localised_description = {"replicating-belts.technology-description", {[1] = "replicating-belts.fast-transport-belt-lower"}},
   icon = "__replicating-belts__/graphics/technology/replicating-fast-transport-belt.png",
   icon_size = 128,
   effects = {
@@ -47,6 +51,8 @@ local replicating_fast_transport_belt = {
 local replicating_express_transport_belt = {
   type = "technology",
   name = "replicating-express-transport-belt",
+  localised_name = {"replicating-belts.prefix", {[1] = "replicating-belts.express-transport-belt-lower"}},
+  localised_description = {"replicating-belts.technology-description", {[1] = "replicating-belts.express-transport-belt-lower"}},
   icon = "__replicating-belts__/graphics/technology/replicating-express-transport-belt.png",
   icon_size = 128,
   effects = {

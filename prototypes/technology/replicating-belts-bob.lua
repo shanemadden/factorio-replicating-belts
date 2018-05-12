@@ -1,6 +1,8 @@
 local replicating_turbo_transport_belt = {
   type = "technology",
   name = "replicating-turbo-transport-belt",
+  localised_name = {"replicating-belts.prefix", {[1] = "replicating-belts.turbo-transport-belt-lower"}},
+  localised_description = {"replicating-belts.technology-description", {[1] = "replicating-belts.turbo-transport-belt-lower"}},
   icon = "__replicating-belts__/graphics/technology/bob/replicating-purple-transport-belt.png",
   icon_size = 128,
   effects = {
@@ -27,6 +29,8 @@ local replicating_turbo_transport_belt = {
 local replicating_ultrabob_transport_belt = {
   type = "technology",
   name = "replicating-ultrabob-transport-belt",
+  localised_name = {"replicating-belts.prefix", {[1] = "replicating-belts.ultimate-transport-belt-lower"}},
+  localised_description = {"replicating-belts.technology-description", {[1] = "replicating-belts.ultimate-transport-belt-lower"}},
   icon = "__replicating-belts__/graphics/technology/bob/replicating-green-transport-belt.png",
   icon_size = 128,
   effects = {

@@ -1,6 +1,7 @@
 local replicating_blistering_transport_belt = {
   type = "item-with-label",
   name = "replicating-blistering-transport-belt",
+  localised_name = {"replicating-belts.prefix", {[1] = "replicating-belts.blistering-transport-belt-lower"}},
   subgroup = "replicating-belt",
   order = "d[replicating-transport-belt]-g[replicating-blistering-transport-belt]",
   icons = {
@@ -18,6 +19,7 @@ local replicating_blistering_transport_belt = {
 local replicating_furious_transport_belt = {
   type = "item-with-label",
   name = "replicating-furious-transport-belt",
+  localised_name = {"replicating-belts.prefix", {[1] = "replicating-belts.furious-transport-belt-lower"}},
   subgroup = "replicating-belt",
   order = "d[replicating-transport-belt]-h[replicating-furious-transport-belt]",
   icons = {

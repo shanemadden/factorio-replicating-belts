@@ -1,6 +1,8 @@
 local replicating_blood_belt = {
   type = "technology",
   name = "replicating-blood-belt",
+  localised_name = {"replicating-belts.prefix", {[1] = "replicating-belts.blood-belt-lower"}},
+  localised_description = {"replicating-belts.technology-description", {[1] = "replicating-belts.blood-belt-lower"}},
   icon = "__replicating-belts__/graphics/technology/blood/replicating-blood-belt.png",
   icon_size = 128,
   effects = {
