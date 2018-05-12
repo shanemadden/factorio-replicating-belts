@@ -1,6 +1,6 @@
 {
     "name": "replicating-belts",
-    "version": "0.16.10",
+    "version": "0.16.11",
     "title": "Replicating Belts",
     "author": "Shane Madden",
     "homepage": "https://github.com/shanemadden/factorio-replicating-belts",
@@ -14,5 +14,5 @@
         "? FactorioExtended-Plus-Transport >= 0.1.3",
         "? UltimateBelts >= 0.16.4"
     ],
-    "description": "Adds replicating belts of each belt type, enabling non-blueprint belt placement with fewer clicks"
+    "description": "Quality of life mod for simplified belt building with special belts that create ghosts"
 }

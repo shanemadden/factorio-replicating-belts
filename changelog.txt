@@ -1,4 +1,9 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.16.11
+Date: 12. 5. 2018
+  Info:
+    - Updated localization strings to use parameters, reducing duplication in the locale files and making the casing consistent with the base game
+---------------------------------------------------------------------------------------------------
 Version: 0.16.10
 Date: 5. 5. 2018
   Info:
