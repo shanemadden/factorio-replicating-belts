@@ -78,6 +78,36 @@ local belt_type_mapping = {
     belt = "ultimate-transport-belt",
     underground = "ultimate-underground-belt",
   },
+  -- dp77 swift
+  ["replicating-swift-transport-belt"] = {
+    belt = "swift-transport-belt",
+    underground = "swift-underground-belt",
+  },
+  -- dp77 elite
+  ["replicating-elite-transport-belt"] = {
+    belt = "elite-transport-belt",
+    underground = "elite-underground-belt",
+  },
+  -- dp77 sonic
+  ["replicating-sonic-transport-belt"] = {
+    belt = "sonic-transport-belt",
+    underground = "sonic-underground-belt",
+  },
+  -- dp77 hyper
+  ["replicating-hyper-transport-belt"] = {
+    belt = "hyper-transport-belt",
+    underground = "hyper-underground-belt",
+  },
+  -- dp77 stealt
+  ["replicating-stealt-transport-belt"] = {
+    belt = "stealt-transport-belt",
+    underground = "stealt-underground-belt",
+  },
+  -- dp77 giga
+  ["replicating-giga-transport-belt"] = {
+    belt = "giga-transport-belt",
+    underground = "giga-underground-belt",
+  },
   -- ultimate t1
   ["replicating-ultra-fast-belt"] = {
     belt = "ultra-fast-belt",

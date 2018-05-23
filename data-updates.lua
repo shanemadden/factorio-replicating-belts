@@ -34,3 +34,9 @@ if data.raw.item["5d-mk5-transport-belt"] then
   require "prototypes.recipe.replicating-belts-5dim"
   require "prototypes.technology.replicating-belts-5dim"
 end
+if data.raw.item["giga-transport-belt"] then
+  require "prototypes.entity.replicating-belts-dp77"
+  require "prototypes.item.replicating-belts-dp77"
+  require "prototypes.recipe.replicating-belts-dp77"
+  require "prototypes.technology.replicating-belts-dp77"
+end
