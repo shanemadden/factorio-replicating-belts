@@ -511,17 +511,18 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
       elseif direction == west then
         target_position = {source_entity.position.x-i, source_entity.position.y}
       end
+      local new_belt
       if player_index and game.players[player_index].cheat_mode then
         -- cheat mode, build for free
         if v == build_plan_belt then
-          surface.create_entity({
+          new_belt = surface.create_entity({
             name = belt_name,
             position = target_position,
             direction = direction,
             force = source_entity.force,
           })
         elseif v == build_plan_input then
-          surface.create_entity({
+          new_belt = surface.create_entity({
             name = underground_name,
             position = target_position,
             direction = direction,
@@ -529,7 +530,7 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
             type = "input",
           })
         elseif v == build_plan_output then
-          surface.create_entity({
+          new_belt = surface.create_entity({
             name = underground_name,
             position = target_position,
             direction = direction,
@@ -540,7 +541,7 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
       else
         -- normal mode, make ghosts
         if v == build_plan_belt then
-          surface.create_entity({
+          new_belt = surface.create_entity({
             name = "entity-ghost",
             inner_name = belt_name,
             position = target_position,
@@ -548,7 +549,7 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
             force = source_entity.force,
           })
         elseif v == build_plan_input then
-          surface.create_entity({
+          new_belt = surface.create_entity({
             name = "entity-ghost",
             inner_name = underground_name,
             position = target_position,
@@ -557,7 +558,7 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
             type = "input",
           })
         elseif v == build_plan_output then
-          surface.create_entity({
+          new_belt = surface.create_entity({
             name = "entity-ghost",
             inner_name = underground_name,
             position = target_position,
@@ -566,6 +567,9 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
             type = "output",
           })
         end
+      end
+      if new_belt and config_player then
+        new_belt.last_user = game.players[config_player]
       end
     end
     if belt_type_mapping[source_entity.name].autoconnect then
@@ -595,7 +599,7 @@ local function trigger_downgrade(entity, refund, player_index)
   local position = entity.position
   local direction = entity.direction
   local force = entity.force
-  surface.create_entity({
+  local new_belt = surface.create_entity({
     name = belt_name,
     position = position,
     direction = direction,
@@ -603,9 +607,10 @@ local function trigger_downgrade(entity, refund, player_index)
     fast_replace = true,
     spill = false,
   })
-  if player_index and refund then
+  if player_index then
     local player = game.players[player_index]
-    if player.get_item_count(belt_name) > 0 then
+    new_belt.last_user = player
+    if refund and player.get_item_count(belt_name) > 0 then
       player.insert({
         name = replicating_belt_name,
         count = player.remove_item({
