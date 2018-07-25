@@ -150,8 +150,6 @@ do
   underground_distances = setmetatable(underground_distances, distance_lookup_metatable)
 end
 
--- create the config table if it doesn't exist
-global.rbconfig = global.rbconfig or {}
 local function config_default(belt_name, key)
   if key == "prefer_underground" then
     return false
@@ -891,6 +889,9 @@ local function on_gui_elem_changed(event)
       underground = belt_type_mapping[belt].underground
       event.element.elem_value = belt_type_mapping[belt].underground
     end
+    if not global.rbconfig then
+      global.rbconfig = {}
+    end
     if not global.rbconfig[player_index] then
       global.rbconfig[player_index] = {}
     end
@@ -907,6 +908,9 @@ local function on_gui_checked_state_changed(event)
     local player_index = event.player_index
     local parent_flow = event.element.parent
     local belt = parent_flow.replicating_belts_config_buttons.replicating_belts_config_belt_button.elem_value
+    if not global.rbconfig then
+      global.rbconfig = {}
+    end
     if not global.rbconfig[player_index] then
       global.rbconfig[player_index] = {}
     end
