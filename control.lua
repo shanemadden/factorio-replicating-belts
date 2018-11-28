@@ -566,8 +566,17 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
           })
         end
       end
-      if new_belt and config_player then
-        new_belt.last_user = game.players[config_player]
+      if new_belt then
+        local event = {
+          created_entity = new_belt,
+        }
+        if config_player then
+          -- set the last_user to the player that triggered the build
+          new_belt.last_user = game.players[config_player]
+          -- set the event attribute for that player too
+          event.player_index = config_player
+        end
+        script.raise_event(defines.events.script_raised_built, event)
       end
     end
     if belt_type_mapping[source_entity.name].autoconnect then

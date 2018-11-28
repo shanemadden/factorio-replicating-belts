@@ -1,4 +1,10 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.16.13
+Date: 27. 11. 2018
+  Changes:
+    - Set last_user on created belts and ghosts
+    - Raise script_raised_built events for created ghost belts
+---------------------------------------------------------------------------------------------------
 Version: 0.16.12
 Date: 23. 5. 2018
   Changes:
