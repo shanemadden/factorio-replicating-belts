@@ -10,7 +10,7 @@ local replicating_rapid_mk1 = {
       icon_size = 32,
     }
   },
-  flags = {"goes-to-quickbar"},
+  flags = {},
   place_result = "replicating-rapid-transport-belt-mk1",
   stack_size = 100,
   can_be_mod_opened = true,
@@ -28,7 +28,7 @@ local replicating_rapid_mk2 = {
       icon_size = 32,
     }
   },
-  flags = {"goes-to-quickbar"},
+  flags = {},
   place_result = "replicating-rapid-transport-belt-mk2",
   stack_size = 100,
   can_be_mod_opened = true,

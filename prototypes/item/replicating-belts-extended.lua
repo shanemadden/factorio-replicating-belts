@@ -10,7 +10,7 @@ local replicating_blistering_transport_belt = {
       icon_size = 32,
     }
   },
-  flags = {"goes-to-quickbar"},
+  flags = {},
   place_result = "replicating-blistering-transport-belt",
   stack_size = 100,
   can_be_mod_opened = true,
@@ -28,7 +28,7 @@ local replicating_furious_transport_belt = {
       icon_size = 32,
     }
   },
-  flags = {"goes-to-quickbar"},
+  flags = {},
   place_result = "replicating-furious-transport-belt",
   stack_size = 100,
   can_be_mod_opened = true,

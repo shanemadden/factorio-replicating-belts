@@ -10,7 +10,7 @@ local replicating_ultra_fast_belt = {
       icon_size = 32,
     }
   },
-  flags = {"goes-to-quickbar"},
+  flags = {},
   place_result = "replicating-ultra-fast-belt",
   stack_size = 100,
   can_be_mod_opened = true,
@@ -28,7 +28,7 @@ local replicating_extreme_fast_belt = {
       icon_size = 32,
     }
   },
-  flags = {"goes-to-quickbar"},
+  flags = {},
   place_result = "replicating-extreme-fast-belt",
   stack_size = 100,
   can_be_mod_opened = true,
@@ -46,7 +46,7 @@ local replicating_ultra_express_belt = {
       icon_size = 32,
     }
   },
-  flags = {"goes-to-quickbar"},
+  flags = {},
   place_result = "replicating-ultra-express-belt",
   stack_size = 100,
   can_be_mod_opened = true,
@@ -64,7 +64,7 @@ local replicating_extreme_express_belt = {
       icon_size = 32,
     }
   },
-  flags = {"goes-to-quickbar"},
+  flags = {},
   place_result = "replicating-extreme-express-belt",
   stack_size = 100,
   can_be_mod_opened = true,
@@ -82,7 +82,7 @@ local replicating_ultimate_transport_belt = {
       icon_size = 32,
     }
   },
-  flags = {"goes-to-quickbar"},
+  flags = {},
   place_result = "replicating-ultimate-transport-belt",
   stack_size = 100,
   can_be_mod_opened = true,

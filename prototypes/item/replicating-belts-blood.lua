@@ -10,7 +10,7 @@ local replicating_blood_belt = {
       icon_size = 32,
     }
   },
-  flags = {"goes-to-quickbar"},
+  flags = {},
   place_result = "replicating-blood-belt",
   stack_size = 100,
   can_be_mod_opened = true,
@@ -28,7 +28,7 @@ local replicating_fast_blood_belt = {
       icon_size = 32,
     }
   },
-  flags = {"goes-to-quickbar"},
+  flags = {},
   place_result = "replicating-fast-blood-belt",
   stack_size = 100,
   can_be_mod_opened = true,
@@ -46,7 +46,7 @@ local replicating_express_blood_belt = {
       icon_size = 32,
     }
   },
-  flags = {"goes-to-quickbar"},
+  flags = {},
   place_result = "replicating-express-blood-belt",
   stack_size = 100,
   can_be_mod_opened = true,

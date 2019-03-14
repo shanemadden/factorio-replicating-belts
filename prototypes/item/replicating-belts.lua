@@ -17,7 +17,7 @@ local replicating_transport_belt = {
       icon_size = 32,
     }
   },
-  flags = {"goes-to-quickbar"},
+  flags = {},
   place_result = "replicating-transport-belt",
   stack_size = 100,
   can_be_mod_opened = true,
@@ -35,7 +35,7 @@ local replicating_fast_transport_belt = {
       icon_size = 32,
     }
   },
-  flags = {"goes-to-quickbar"},
+  flags = {},
   place_result = "replicating-fast-transport-belt",
   stack_size = 100,
   can_be_mod_opened = true,
@@ -53,7 +53,7 @@ local replicating_express_transport_belt = {
       icon_size = 32,
     }
   },
-  flags = {"goes-to-quickbar"},
+  flags = {},
   place_result = "replicating-express-transport-belt",
   stack_size = 100,
   can_be_mod_opened = true,

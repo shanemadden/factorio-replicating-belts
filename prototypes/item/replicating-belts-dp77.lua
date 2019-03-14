@@ -10,7 +10,7 @@ local replicating_swift_transport_belt = {
       icon_size = 32,
     }
   },
-  flags = {"goes-to-quickbar"},
+  flags = {},
   place_result = "replicating-swift-transport-belt",
   stack_size = 100,
   can_be_mod_opened = true,
@@ -28,7 +28,7 @@ local replicating_elite_transport_belt = {
       icon_size = 32,
     }
   },
-  flags = {"goes-to-quickbar"},
+  flags = {},
   place_result = "replicating-elite-transport-belt",
   stack_size = 100,
   can_be_mod_opened = true,
@@ -46,7 +46,7 @@ local replicating_sonic_transport_belt = {
       icon_size = 32,
     }
   },
-  flags = {"goes-to-quickbar"},
+  flags = {},
   place_result = "replicating-sonic-transport-belt",
   stack_size = 100,
   can_be_mod_opened = true,
@@ -64,7 +64,7 @@ local replicating_hyper_transport_belt = {
       icon_size = 32,
     }
   },
-  flags = {"goes-to-quickbar"},
+  flags = {},
   place_result = "replicating-hyper-transport-belt",
   stack_size = 100,
   can_be_mod_opened = true,
@@ -82,7 +82,7 @@ local replicating_stealt_transport_belt = {
       icon_size = 32,
     }
   },
-  flags = {"goes-to-quickbar"},
+  flags = {},
   place_result = "replicating-stealt-transport-belt",
   stack_size = 100,
   can_be_mod_opened = true,
@@ -100,7 +100,7 @@ local replicating_giga_transport_belt = {
       icon_size = 32,
     }
   },
-  flags = {"goes-to-quickbar"},
+  flags = {},
   place_result = "replicating-giga-transport-belt",
   stack_size = 100,
   can_be_mod_opened = true,

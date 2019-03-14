@@ -858,16 +858,9 @@ local function on_robot_built_entity(event)
 end
 script.on_event(defines.events.on_robot_built_entity, on_robot_built_entity)
 
-local counterclock = {
-  [north] = west,
-  [south] = east,
-  [east] = north,
-  [west] = south,
-}
 local function on_player_rotated_entity(event)
   if belt_type_mapping[event.entity.name] then
-    -- if the player's holding shift then they already rotated counterclockwise and the belt will be 180 degree flipped - it's a feature!
-    event.entity.direction = counterclock[event.entity.direction]
+    event.entity.direction = event.previous_direction
     trigger_downgrade(event.entity, true, event.player_index)
   end
 end

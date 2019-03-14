@@ -10,7 +10,7 @@ local replicating_5d_mk4 = {
       icon_size = 32,
     }
   },
-  flags = {"goes-to-quickbar"},
+  flags = {},
   place_result = "replicating-5d-mk4-transport-belt",
   stack_size = 100,
   can_be_mod_opened = true,
@@ -28,7 +28,7 @@ local replicating_5d_mk5 = {
       icon_size = 32,
     }
   },
-  flags = {"goes-to-quickbar"},
+  flags = {},
   place_result = "replicating-5d-mk5-transport-belt",
   stack_size = 100,
   can_be_mod_opened = true,

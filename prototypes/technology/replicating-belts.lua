@@ -15,8 +15,8 @@ local replicating_transport_belt = {
   unit = {
     count = 100,
     ingredients = {
-      {"science-pack-1", 1},
-      {"science-pack-2", 1},
+      {"automation-science-pack", 1},
+      {"logistic-science-pack", 1},
     },
     time = 15,
   },
@@ -40,8 +40,8 @@ local replicating_fast_transport_belt = {
   unit = {
     count = 500,
     ingredients = {
-      {"science-pack-1", 1},
-      {"science-pack-2", 1},
+      {"automation-science-pack", 1},
+      {"logistic-science-pack", 1},
     },
     time = 30,
   },
@@ -65,9 +65,9 @@ local replicating_express_transport_belt = {
   unit = {
     count = 1000,
     ingredients = {
-      {"science-pack-1", 1},
-      {"science-pack-2", 1},
-      {"science-pack-3", 1},
+      {"automation-science-pack", 1},
+      {"logistic-science-pack", 1},
+      {"chemical-science-pack", 1},
       {"production-science-pack", 1},
     },
     time = 30,
