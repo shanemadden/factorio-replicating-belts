@@ -11,7 +11,7 @@ local replicating_turbo_transport_belt = {
       recipe = "replicating-turbo-transport-belt",
     }
   },
-  prerequisites = { "bob-logistics-4", "replicating-transport-belt" },
+  prerequisites = { "logistics-4", "replicating-transport-belt" },
   unit = {
     count = 500,
     ingredients =
@@ -39,7 +39,7 @@ local replicating_ultrabob_transport_belt = {
       recipe = "replicating-ultrabob-transport-belt"
     }
   },
-  prerequisites = { "bob-logistics-5", "replicating-turbo-transport-belt" },
+  prerequisites = { "logistics-5", "replicating-turbo-transport-belt" },
   unit = {
     count = 1000,
     ingredients =

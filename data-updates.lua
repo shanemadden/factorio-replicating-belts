@@ -1,4 +1,4 @@
-if data.raw.technology["bob-logistics-4"] then
+if mods.boblogistics then
   require "prototypes.entity.replicating-belts-bob"
   require "prototypes.item.replicating-belts-bob"
   require "prototypes.recipe.replicating-belts-bob"
