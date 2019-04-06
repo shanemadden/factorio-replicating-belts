@@ -135,6 +135,24 @@ local belt_type_mapping = {
   },
 }
 
+local reverse_belt_type_mapping = {}
+do
+  -- this table is for figuring out which replicating belt to make for a given belt, run once per entity for speed
+  local reverse_mapping_metatable = {
+    __index = function(table, key)
+      for replicating_belt_name, value in pairs(belt_type_mapping) do
+        if value.belt == key then
+          table[key] = replicating_belt_name
+          return replicating_belt_name
+        end
+      end
+      table[key] = false
+      return false
+    end
+  }
+  reverse_belt_type_mapping = setmetatable(reverse_belt_type_mapping, reverse_mapping_metatable)
+end
+
 local underground_distances = {}
 do
   -- we need to know each underground belt type's max distance but we can't query the game object 
@@ -348,13 +366,23 @@ local function can_build_in_spot(source_entity, distance)
     target_position = {source_entity.position.x-distance, source_entity.position.y}
   end
 
-  return source_entity.surface.can_place_entity({
-    name = source_entity.name,
-    position = target_position,
-    direction = source_entity.direction,
-    force = source_entity.force,
-    build_check_type = defines.build_check_type.ghost_place,
-  })
+  if source_entity.name == "entity-ghost" then
+    return source_entity.surface.can_place_entity({
+      name = source_entity.ghost_name,
+      position = target_position,
+      direction = source_entity.direction,
+      force = source_entity.force,
+      build_check_type = defines.build_check_type.ghost_place,
+    })
+  else
+    return source_entity.surface.can_place_entity({
+      name = source_entity.name,
+      position = target_position,
+      direction = source_entity.direction,
+      force = source_entity.force,
+      build_check_type = defines.build_check_type.ghost_place,
+    })
+  end
 end
 
 -- magic numbers for our build plan arrays instead of storing anything heavier there
@@ -376,10 +404,15 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
     config_player = source_entity.last_user.index
   end
   local surface = source_entity.surface
-  local replicating_name = source_entity.name
-  local belt_name = belt_type_mapping[source_entity.name].belt
-  local underground_name = get_config(config_player, source_entity.name, "underground")
-  local prefer_underground = get_config(config_player, source_entity.name, "prefer_underground")
+  local replicating_name
+  if source_entity.name == "entity-ghost" then
+    replicating_name = source_entity.ghost_name
+  else
+    replicating_name = source_entity.name
+  end
+  local belt_name = belt_type_mapping[replicating_name].belt
+  local underground_name = get_config(config_player, replicating_name, "underground")
+  local prefer_underground = get_config(config_player, replicating_name, "prefer_underground")
   local direction = source_entity.direction
   for i=1,path_distance-1 do
     -- evaluate whether we can place ghost belts in each spot along the path, collect for the pathfinder
@@ -579,7 +612,7 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
         script.raise_event(defines.events.script_raised_built, event)
       end
     end
-    if belt_type_mapping[source_entity.name].autoconnect then
+    if belt_type_mapping[replicating_name].autoconnect then
       try_autoconnect(source_entity)
     end
     if #build_plan == 0 then
@@ -601,38 +634,51 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
 end
 local function trigger_downgrade(entity, refund, player_index)
   local surface = entity.surface
-  local replicating_belt_name = entity.name
-  local belt_name = belt_type_mapping[entity.name].belt
   local position = entity.position
   local direction = entity.direction
   local force = entity.force
-  local new_belt = surface.create_entity({
-    name = belt_name,
-    position = position,
-    direction = direction,
-    force = force,
-    fast_replace = true,
-    spill = false,
-  })
-  if player_index then
-    local player = game.players[player_index]
-    new_belt.last_user = player
-    if refund and player.get_item_count(belt_name) > 0 then
-      player.insert({
-        name = replicating_belt_name,
-        count = player.remove_item({
-          name = belt_name,
-          count = 1,
+  local last_user = entity.last_user
+  if entity.type == "entity-ghost" then
+    local replicating_belt_name = entity.ghost_name
+    local belt_name = belt_type_mapping[replicating_belt_name].belt
+    entity.destroy()
+    local new_belt = surface.create_entity({
+      name = "entity-ghost",
+      inner_name = belt_name,
+      position = position,
+      direction = direction,
+      force = force,
+      spill = false,
+    })
+    new_belt.last_user = last_user
+  else
+    local replicating_belt_name = entity.name
+    local belt_name = belt_type_mapping[replicating_belt_name].belt
+    local new_belt = surface.create_entity({
+      name = belt_name,
+      position = position,
+      direction = direction,
+      force = force,
+      fast_replace = true,
+      spill = false,
+    })
+    if player_index then
+      local player = game.players[player_index]
+      new_belt.last_user = player
+      if refund and player.get_item_count(belt_name) > 0 then
+        player.insert({
+          name = replicating_belt_name,
+          count = player.remove_item({
+            name = belt_name,
+            count = 1,
+          })
         })
-      })
+      end
     end
   end
 end
 local function check_downgrade(entity, refund, player_index)
   local downgrade = false
-  if entity.type == "entity-ghost" then
-    return
-  end
   if not can_build_in_spot(entity, 1) then
     for _, v in pairs(scan_directions[entity.direction]) do
       local neighbors = get_neighbor_entities(entity, v)
@@ -656,7 +702,7 @@ local function check_downgrade(entity, refund, player_index)
   end
 end
 
-local function check_direction(entity, search_direction, direction_filter, player_index, include_ghosts)
+local function check_direction(entity, search_direction, direction_filter, player_index)
   local name
   if entity.type == "transport-belt" then
     name = entity.name
@@ -709,28 +755,26 @@ local function check_direction(entity, search_direction, direction_filter, playe
       end
     end
   end
-  if include_ghosts then
-    -- Also check ghost entities in the target area since we're running a scan that can match with a ghost
-    local entities = game.surfaces[entity.surface.index].find_entities_filtered({
-      area = area,
-      ghost_name = name,
-      force = entity.force,
-    })
-    for k,v in pairs(entities) do
-      if direction_filter[v.direction] then
-        -- this one's facing in a direction we're interested in, let's check whether it's the closest one we've seen
-        local match_distance
-        if search_direction == north or search_direction == south then
-          match_distance = math.abs(v.position.y - entity.position.y)
-        elseif search_direction == east or search_direction == west then
-          match_distance = math.abs(v.position.x - entity.position.x)
-        end
-        -- check whether this is the closest one we've found
-        if match_distance then
-          if closest_distance == nil or match_distance < closest_distance then
-            closest_facing = v
-            closest_distance = match_distance
-          end
+  -- Also check ghost entities
+  local entities = game.surfaces[entity.surface.index].find_entities_filtered({
+    area = area,
+    ghost_name = name,
+    force = entity.force,
+  })
+  for k,v in pairs(entities) do
+    if direction_filter[v.direction] then
+      -- this one's facing in a direction we're interested in, let's check whether it's the closest one we've seen
+      local match_distance
+      if search_direction == north or search_direction == south then
+        match_distance = math.abs(v.position.y - entity.position.y)
+      elseif search_direction == east or search_direction == west then
+        match_distance = math.abs(v.position.x - entity.position.x)
+      end
+      -- check whether this is the closest one we've found
+      if match_distance then
+        if closest_distance == nil or match_distance < closest_distance then
+          closest_facing = v
+          closest_distance = match_distance
         end
       end
     end
@@ -759,8 +803,9 @@ local function scan_from_entity(entity, player_index)
   end
   for _, v in pairs(scan_directions[entity.direction]) do
     -- scan in the three directions a matching belt might be facing us in
-    check_direction(entity, v, facing_toward_the_scanner_filters[v], player_index, false)
+    check_direction(entity, v, facing_toward_the_scanner_filters[v], player_index)
   end
+  check_direction(entity, entity.direction, facing_any_but_opposite_filters[entity.direction], player_index)
   if entity.type == "transport-belt" then
     -- not a ghost. check if there's an obstruction directly ahead. if so, downconvert
     -- (and try to refund a replicating belt to the player at the cost of a normal belt, since we didn't do anything too useful)
@@ -775,7 +820,6 @@ local function scan_from_entity(entity, player_index)
     else
       touched_belts[entity] = false
     end
-    check_direction(entity, entity.direction, facing_any_but_opposite_filters[entity.direction], player_index, true)
   end
   for entity, refund in pairs(touched_belts) do
     check_downgrade(entity, refund, player_index)
@@ -837,6 +881,84 @@ local function open_gui(event)
   -- set the player's current opened gui to the frame
   player.opened = settings
 end
+-- fix shift on repl ghosts
+-- make a setting for whether to render at all, and a per player setting to disable
+-- also setting for recipe and tech disable - this should probably be default to be as smooth as possible
+-- need to add a way to get to options dialog
+-- also test how it works with the hot bar when ghost hotbar things disabled (shift shoudl still work)
+local function render_tick(event)
+  --for player_index, target_belt in pairs(global.rendering_players) do
+  --   local player = game.players[player_index]
+  for _, player in pairs(game.players) do
+    --remove this, use rendering players instead once possible
+    -- (this is already true for them:)
+    if player.cursor_ghost and belt_type_mapping[player.cursor_ghost.name] then
+      local entities = player.surface.find_entities_filtered({
+        ghost_name = player.cursor_ghost.name,
+        force = player.force,
+        limit = 20,
+        area = {{player.position.x-scan_max_distance*2, player.position.y-scan_max_distance*2},{player.position.x+scan_max_distance*2, player.position.y+scan_max_distance*2}},
+      })
+      for _, entity in pairs(entities) do
+        target_position_a = {entity.position.x, entity.position.y-scan_max_distance}
+        target_position_b = {entity.position.x, entity.position.y+scan_max_distance}
+        target_position_c = {entity.position.x-scan_max_distance, entity.position.y}
+        target_position_d = {entity.position.x+scan_max_distance, entity.position.y}
+        if entity.direction == north or entity.direction == south then
+          rendering.draw_line({
+            color = {r=0,g=0,b=1,a=0.3},
+            width = 4,
+            gap_length = 0.5,
+            dash_length = 0.5,
+            from = target_position_a,
+            to = target_position_b,
+            surface = player.surface,
+            players = {player},
+            time_to_live = 31,
+            draw_on_ground = true,
+          })
+          rendering.draw_line({
+            color = {r=0,g=0,b=1,a=0.3},
+            width = 2,
+            gap_length = 0.8,
+            dash_length = 0.2,
+            from = target_position_c,
+            to = target_position_d,
+            surface = player.surface,
+            players = {player},
+            time_to_live = 31,
+            draw_on_ground = true,
+          })
+        elseif entity.direction == east or entity.direction == west then
+          rendering.draw_line({
+            color = {r=0,g=0,b=1,a=0.3},
+            width = 2,
+            gap_length = 0.8,
+            dash_length = 0.2,
+            from = target_position_a,
+            to = target_position_b,
+            surface = player.surface,
+            players = {player},
+            time_to_live = 31,
+            draw_on_ground = true,
+          })
+          rendering.draw_line({
+            color = {r=0,g=0,b=1,a=0.3},
+            width = 4,
+            gap_length = 0.5,
+            dash_length = 0.5,
+            from = target_position_c,
+            to = target_position_d,
+            surface = player.surface,
+            players = {player},
+            time_to_live = 31,
+            draw_on_ground = true,
+          })
+        end
+      end
+    end
+  end
+end
 
 local function on_built_entity(event)
   if event.created_entity.type == "entity-ghost" then
@@ -865,6 +987,63 @@ local function on_player_rotated_entity(event)
   end
 end
 script.on_event(defines.events.on_player_rotated_entity, on_player_rotated_entity)
+
+local function on_player_cursor_stack_changed(event)
+  if not global.rendering_players then
+    global.rendering_players = {}
+  end
+  local player = game.players[event.player_index]
+  if (not player.cursor_stack.valid_for_read) and player.cursor_ghost and belt_type_mapping[player.cursor_ghost.name] then
+    -- if nobody was rendering then attach the handler
+    -- if not next(global.rendering_players) then
+    --   script.on_nth_tick(30, render_tick)
+    -- end
+    global.rendering_players[event.player_index] = player.cursor_ghost.name
+    render_tick(event)
+  elseif global.rendering_players[event.player_index] then
+    -- player was rendering, remove
+    global.rendering_players[event.player_index] = nil
+    -- check if no players have a special belt on cursor, drop tick registration if so
+    -- if not next(global.rendering_players) then
+    --   script.on_nth_tick(30, nil)
+    -- end
+  end
+end
+script.on_event(defines.events.on_player_cursor_stack_changed, on_player_cursor_stack_changed)
+
+local function on_load()
+  -- for now always load, since our conditional reg is waiting on https://forums.factorio.com/viewtopic.php?f=28&t=68630
+  --if global.rendering_players and next(global.rendering_players) then
+    script.on_nth_tick(30, render_tick)
+  --end
+end
+script.on_load(on_load)
+script.on_init(on_load)
+
+local function keybind_trigger(event)
+  local player = game.players[event.player_index]
+  local entity = player.selected
+  if player.cursor_stack.valid_for_read then
+    -- already holding something, return
+    return
+  end
+  if entity then
+    local replicating_belt_name
+    if reverse_belt_type_mapping[entity.name] or (entity.type == "entity-ghost" and reverse_belt_type_mapping[entity.ghost_name]) then
+      replicating_belt_name = reverse_belt_type_mapping[entity.name] or reverse_belt_type_mapping[entity.ghost_name]
+    elseif belt_type_mapping[entity.name] or (entity.type == "entity-ghost" and reverse_belt_type_mapping[entity.ghost_name]) then
+      replicating_belt_name = entity.name
+    end
+    if replicating_belt_name then
+      -- pipette to match direction, then drop it
+      -- Doesn't work currently :(  https://forums.factorio.com/viewtopic.php?f=28&t=68626
+      --player.pipette_entity(entity)
+      --player.cursor_stack.clear()
+      player.cursor_ghost = replicating_belt_name
+    end
+  end
+end
+script.on_event("get-replicating-belt-ghost", keybind_trigger)
 
 local function on_mod_item_opened(event)
   if belt_type_mapping[event.item.name] then
