@@ -1,4 +1,10 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.17.3
+Date: 13. 04. 2018
+  Changes:
+    - Enable shift-left-click on regular belts to get a replicating belt ghost of that belt type
+    - Enable replication triggering on ghost-only peers, allowing belt building without constuction of special belts
+---------------------------------------------------------------------------------------------------
 Version: 0.17.2
 Date: 06. 04. 2018
   Changes:

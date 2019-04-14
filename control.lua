@@ -881,84 +881,6 @@ local function open_gui(event)
   -- set the player's current opened gui to the frame
   player.opened = settings
 end
--- fix shift on repl ghosts
--- make a setting for whether to render at all, and a per player setting to disable
--- also setting for recipe and tech disable - this should probably be default to be as smooth as possible
--- need to add a way to get to options dialog
--- also test how it works with the hot bar when ghost hotbar things disabled (shift shoudl still work)
-local function render_tick(event)
-  --for player_index, target_belt in pairs(global.rendering_players) do
-  --   local player = game.players[player_index]
-  for _, player in pairs(game.players) do
-    --remove this, use rendering players instead once possible
-    -- (this is already true for them:)
-    if player.cursor_ghost and belt_type_mapping[player.cursor_ghost.name] then
-      local entities = player.surface.find_entities_filtered({
-        ghost_name = player.cursor_ghost.name,
-        force = player.force,
-        limit = 20,
-        area = {{player.position.x-scan_max_distance*2, player.position.y-scan_max_distance*2},{player.position.x+scan_max_distance*2, player.position.y+scan_max_distance*2}},
-      })
-      for _, entity in pairs(entities) do
-        target_position_a = {entity.position.x, entity.position.y-scan_max_distance}
-        target_position_b = {entity.position.x, entity.position.y+scan_max_distance}
-        target_position_c = {entity.position.x-scan_max_distance, entity.position.y}
-        target_position_d = {entity.position.x+scan_max_distance, entity.position.y}
-        if entity.direction == north or entity.direction == south then
-          rendering.draw_line({
-            color = {r=0,g=0,b=1,a=0.3},
-            width = 4,
-            gap_length = 0.5,
-            dash_length = 0.5,
-            from = target_position_a,
-            to = target_position_b,
-            surface = player.surface,
-            players = {player},
-            time_to_live = 31,
-            draw_on_ground = true,
-          })
-          rendering.draw_line({
-            color = {r=0,g=0,b=1,a=0.3},
-            width = 2,
-            gap_length = 0.8,
-            dash_length = 0.2,
-            from = target_position_c,
-            to = target_position_d,
-            surface = player.surface,
-            players = {player},
-            time_to_live = 31,
-            draw_on_ground = true,
-          })
-        elseif entity.direction == east or entity.direction == west then
-          rendering.draw_line({
-            color = {r=0,g=0,b=1,a=0.3},
-            width = 2,
-            gap_length = 0.8,
-            dash_length = 0.2,
-            from = target_position_a,
-            to = target_position_b,
-            surface = player.surface,
-            players = {player},
-            time_to_live = 31,
-            draw_on_ground = true,
-          })
-          rendering.draw_line({
-            color = {r=0,g=0,b=1,a=0.3},
-            width = 4,
-            gap_length = 0.5,
-            dash_length = 0.5,
-            from = target_position_c,
-            to = target_position_d,
-            surface = player.surface,
-            players = {player},
-            time_to_live = 31,
-            draw_on_ground = true,
-          })
-        end
-      end
-    end
-  end
-end
 
 local function on_built_entity(event)
   if event.created_entity.type == "entity-ghost" then
@@ -988,38 +910,6 @@ local function on_player_rotated_entity(event)
 end
 script.on_event(defines.events.on_player_rotated_entity, on_player_rotated_entity)
 
-local function on_player_cursor_stack_changed(event)
-  if not global.rendering_players then
-    global.rendering_players = {}
-  end
-  local player = game.players[event.player_index]
-  if (not player.cursor_stack.valid_for_read) and player.cursor_ghost and belt_type_mapping[player.cursor_ghost.name] then
-    -- if nobody was rendering then attach the handler
-    -- if not next(global.rendering_players) then
-    --   script.on_nth_tick(30, render_tick)
-    -- end
-    global.rendering_players[event.player_index] = player.cursor_ghost.name
-    render_tick(event)
-  elseif global.rendering_players[event.player_index] then
-    -- player was rendering, remove
-    global.rendering_players[event.player_index] = nil
-    -- check if no players have a special belt on cursor, drop tick registration if so
-    -- if not next(global.rendering_players) then
-    --   script.on_nth_tick(30, nil)
-    -- end
-  end
-end
-script.on_event(defines.events.on_player_cursor_stack_changed, on_player_cursor_stack_changed)
-
-local function on_load()
-  -- for now always load, since our conditional reg is waiting on https://forums.factorio.com/viewtopic.php?f=28&t=68630
-  --if global.rendering_players and next(global.rendering_players) then
-    script.on_nth_tick(30, render_tick)
-  --end
-end
-script.on_load(on_load)
-script.on_init(on_load)
-
 local function keybind_trigger(event)
   local player = game.players[event.player_index]
   local entity = player.selected
@@ -1031,8 +921,10 @@ local function keybind_trigger(event)
     local replicating_belt_name
     if reverse_belt_type_mapping[entity.name] or (entity.type == "entity-ghost" and reverse_belt_type_mapping[entity.ghost_name]) then
       replicating_belt_name = reverse_belt_type_mapping[entity.name] or reverse_belt_type_mapping[entity.ghost_name]
-    elseif belt_type_mapping[entity.name] or (entity.type == "entity-ghost" and reverse_belt_type_mapping[entity.ghost_name]) then
+    elseif belt_type_mapping[entity.name] then
       replicating_belt_name = entity.name
+    elseif entity.type == "entity-ghost" and belt_type_mapping[entity.ghost_name] then
+      replicating_belt_name = entity.ghost_name
     end
     if replicating_belt_name then
       -- pipette to match direction, then drop it
