@@ -556,6 +556,7 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
             position = target_position,
             direction = direction,
             force = source_entity.force,
+            raise_built = true,
           })
         elseif v == build_plan_input then
           new_belt = surface.create_entity({
@@ -563,6 +564,7 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
             position = target_position,
             direction = direction,
             force = source_entity.force,
+            raise_built = true,
             type = "input",
           })
         elseif v == build_plan_output then
@@ -571,6 +573,7 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
             position = target_position,
             direction = direction,
             force = source_entity.force,
+            raise_built = true,
             type = "output",
           })
         end
@@ -583,6 +586,7 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
             position = target_position,
             direction = direction,
             force = source_entity.force,
+            raise_built = true,
           })
         elseif v == build_plan_input then
           new_belt = surface.create_entity({
@@ -591,6 +595,7 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
             position = target_position,
             direction = direction,
             force = source_entity.force,
+            raise_built = true,
             type = "input",
           })
         elseif v == build_plan_output then
@@ -600,6 +605,7 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
             position = target_position,
             direction = direction,
             force = source_entity.force,
+            raise_built = true,
             type = "output",
           })
         end
@@ -653,6 +659,7 @@ local function trigger_downgrade(entity, refund, player_index)
       position = position,
       direction = direction,
       force = force,
+      raise_built = true,
       spill = false,
     })
     new_belt.last_user = last_user
@@ -664,6 +671,7 @@ local function trigger_downgrade(entity, refund, player_index)
       position = position,
       direction = direction,
       force = force,
+      raise_built = true,
       fast_replace = true,
       spill = false,
     })

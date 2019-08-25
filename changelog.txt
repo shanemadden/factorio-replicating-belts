@@ -4,6 +4,7 @@ Date: 17. 08. 2018
   Changes:
     - Add support for Bob's Logistics basic transport belts
     - Add replicating express belts as a prerequisite for Bob's Logistics replicating turbo belts (the prerequisite was previously just regular replicating belts)
+    - Raise events on entity creation
 ---------------------------------------------------------------------------------------------------
 Version: 0.17.3
 Date: 13. 04. 2018
