@@ -75,4 +75,9 @@ local replicating_express_transport_belt = {
   order = "a-f-c-z",
 }
 
+-- make replicating-transport-belt research depend on basic-replicating-transport-belt, if it exists
+if mods.boblogistics and data.raw.item["basic-transport-belt"] then
+  table.insert(replicating_transport_belt["prerequisites"], "replicating-basic-transport-belt")
+end
+
 data:extend{replicating_transport_belt, replicating_fast_transport_belt, replicating_express_transport_belt}

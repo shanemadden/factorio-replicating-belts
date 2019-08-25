@@ -11,7 +11,7 @@ local replicating_turbo_transport_belt = {
       recipe = "replicating-turbo-transport-belt",
     }
   },
-  prerequisites = { "logistics-4", "replicating-transport-belt" },
+  prerequisites = { "logistics-4", "replicating-express-transport-belt" },
   unit = {
     count = 500,
     ingredients =

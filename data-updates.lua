@@ -3,6 +3,12 @@ if mods.boblogistics then
   require "prototypes.item.replicating-belts-bob"
   require "prototypes.recipe.replicating-belts-bob"
   require "prototypes.technology.replicating-belts-bob"
+  if data.raw.item["basic-transport-belt"] then
+    require "prototypes.entity.replicating-belts-bob-basic"
+    require "prototypes.item.replicating-belts-bob-basic"
+    require "prototypes.recipe.replicating-belts-bob-basic"
+    require "prototypes.technology.replicating-belts-bob-basic"
+  end
 end
 if data.raw.technology["ultimate-logistics"] then
   require "prototypes.entity.replicating-belts-ultimate"

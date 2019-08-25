@@ -68,6 +68,11 @@ local belt_type_mapping = {
     belt = "rapid-transport-belt-mk2",
     underground = "rapid-transport-belt-to-ground-mk2",
   },
+  -- bob's grey
+  ["replicating-basic-transport-belt"] = {
+    belt = "basic-transport-belt",
+    underground = "basic-underground-belt",
+  },
   -- bob's purple
   ["replicating-turbo-transport-belt"] = {
     belt = "turbo-transport-belt",
