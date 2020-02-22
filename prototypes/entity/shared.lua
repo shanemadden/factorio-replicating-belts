@@ -5,6 +5,7 @@ function replicating_belts.entity(name, settings)
   entity.name = name
   entity.minable.result = name
   entity.icon = settings.icon
+  entity.icon_size = settings.icon_size
   entity.localised_name = {"replicating-belts.prefix", {[1] = string.format("replicating-belts.%s-lower", settings.copy)}}
   entity.belt_animation_set = {
     animation_set =

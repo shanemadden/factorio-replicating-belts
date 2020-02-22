@@ -6,6 +6,7 @@ local entity_mapping = {
   ["replicating-basic-transport-belt"] = {
     copy = "basic-transport-belt",
     icon = "__replicating-belts__/graphics/icons/bob/replicating-grey-transport-belt.png",
+    icon_size = 32,
     tint = {r=120,g=120,b=120},
   },
 }

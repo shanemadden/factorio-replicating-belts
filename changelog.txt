@@ -1,4 +1,10 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.18.0
+Date: 21. 02. 2020
+  Changes:
+    - Updated for 0.18
+    - Removed technologies and recipes; shift-click to get a ghost for a given belt type and chain ghosts together instead of paying a cost for each activation.
+---------------------------------------------------------------------------------------------------
 Version: 0.17.5
 Date: 26. 08. 2018
   Bugfixes:

@@ -942,8 +942,8 @@ local function keybind_trigger(event)
     if replicating_belt_name then
       -- pipette to match direction, then drop it
       -- Doesn't work currently :(  https://forums.factorio.com/viewtopic.php?f=28&t=68626
-      --player.pipette_entity(entity)
-      --player.cursor_stack.clear()
+      player.pipette_entity(entity)
+      player.cursor_stack.clear()
       player.cursor_ghost = replicating_belt_name
     end
   end
