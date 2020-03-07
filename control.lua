@@ -556,6 +556,7 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
             position = target_position,
             direction = direction,
             force = source_entity.force,
+            player = config_player,
             raise_built = true,
           })
         elseif v == build_plan_input then
@@ -564,6 +565,7 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
             position = target_position,
             direction = direction,
             force = source_entity.force,
+            player = config_player,
             raise_built = true,
             type = "input",
           })
@@ -573,6 +575,7 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
             position = target_position,
             direction = direction,
             force = source_entity.force,
+            player = config_player,
             raise_built = true,
             type = "output",
           })
@@ -586,6 +589,7 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
             position = target_position,
             direction = direction,
             force = source_entity.force,
+            player = config_player,
             raise_built = true,
           })
         elseif v == build_plan_input then
@@ -595,6 +599,7 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
             position = target_position,
             direction = direction,
             force = source_entity.force,
+            player = config_player,
             raise_built = true,
             type = "input",
           })
@@ -605,22 +610,11 @@ local function check_path(source_entity, dest_entity, path_distance, player_inde
             position = target_position,
             direction = direction,
             force = source_entity.force,
+            player = config_player,
             raise_built = true,
             type = "output",
           })
         end
-      end
-      if new_belt then
-        local event = {
-          created_entity = new_belt,
-        }
-        if config_player then
-          -- set the last_user to the player that triggered the build
-          new_belt.last_user = game.players[config_player]
-          -- set the event attribute for that player too
-          event.player_index = config_player
-        end
-        script.raise_event(defines.events.script_raised_built, event)
       end
     end
     if belt_type_mapping[replicating_name].autoconnect then
