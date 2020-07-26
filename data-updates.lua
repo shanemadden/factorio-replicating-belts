@@ -21,3 +21,6 @@ require "prototypes.item.replicating-belts-5dim"
 
 require "prototypes.entity.replicating-belts-dp77"
 require "prototypes.item.replicating-belts-dp77"
+
+require "prototypes.entity.replicating-belts-krastorio2"
+require "prototypes.item.replicating-belts-krastorio2"

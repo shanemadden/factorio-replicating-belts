@@ -1,6 +1,6 @@
 {
     "name": "replicating-belts",
-    "version": "0.18.3",
+    "version": "0.18.4",
     "title": "Replicating Belts",
     "author": "Shane Madden",
     "homepage": "https://github.com/shanemadden/factorio-replicating-belts",
@@ -13,6 +13,7 @@
         "? Dp77s-FactorioPlus-Hyper-Logistic >= 1.3.0",
         "? FactorioExtended-Transport >= 0.3.1",
         "? FactorioExtended-Plus-Transport >= 0.1.3",
+        "? Krastorio2 >= 0.9.99",
         "? UltimateBelts >= 0.16.4"
     ],
     "description": "Quality of life mod for simplified belt building with special belts that create ghosts"

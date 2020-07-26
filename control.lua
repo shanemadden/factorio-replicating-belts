@@ -138,6 +138,16 @@ local belt_type_mapping = {
     belt = "ultimate-belt",
     underground = "original-ultimate-underground-belt",
   },
+  -- krastorio2 advanced
+  ["replicating-kr-advanced-transport-belt"] = {
+    belt = "kr-advanced-transport-belt",
+    underground = "kr-advanced-underground-belt",
+  },
+  -- krastorio2 superior
+  ["replicating-kr-superior-transport-belt"] = {
+    belt = "kr-superior-transport-belt",
+    underground = "kr-superior-underground-belt",
+  },
 }
 
 local reverse_belt_type_mapping = {}
